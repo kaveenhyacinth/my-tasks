@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtPayload } from '../../interfaces/jwt.interface';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,7 @@ export class AuthService {
       sub: user.id,
       username: user.username,
       role: user.role.id,
-    };
+    } satisfies JwtPayload;
 
     const token = await this.jwtService.signAsync(jwtPayload, {
       secret: this.configService.get<string>('JWT_SECRET'),
