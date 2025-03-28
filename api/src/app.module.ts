@@ -5,6 +5,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { RoleModule } from './modules/role/role.module';
+import { EmployeeModule } from './modules/employee/employee.module';
+import { DepartmentModule } from './modules/department/department.module';
+import { UsernameExistConstraint } from './validators/username-exist.validator';
 
 @Module({
   imports: [
@@ -28,8 +31,12 @@ import { RoleModule } from './modules/role/role.module';
     AuthModule,
 
     RoleModule,
+
+    EmployeeModule,
+
+    DepartmentModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UsernameExistConstraint],
 })
 export class AppModule {}

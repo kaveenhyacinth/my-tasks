@@ -18,10 +18,12 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @ManyToOne(() => Department, (department) => department.users)
+  @ManyToOne(() => Department, (department) => department.users, {
+    eager: true,
+  })
   department: Department;
 
-  @ManyToOne(() => Role, (role) => role.users)
+  @ManyToOne(() => Role, (role) => role.users, { eager: true })
   role: Role;
 
   @OneToMany(() => Task, (task) => task.assignee)

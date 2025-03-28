@@ -1,15 +1,11 @@
 import { BaseEntity } from './base.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { User } from './user.entity';
-
-export enum ROLE {
-  BASE = 'base',
-  ADMIN = 'admin',
-}
+import { ROLE } from '../../enums/role.enum';
 
 @Entity({ name: 'roles' })
 export class Role extends BaseEntity {
-  @Column({ enum: ['base', 'admin'] })
+  @Column({ enum: ['base', 'admin'], unique: true })
   roleName: ROLE;
 
   @OneToMany(() => User, (user) => user.role)

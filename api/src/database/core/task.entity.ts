@@ -16,6 +16,6 @@ export class Task extends BaseEntity {
   @Column({ type: 'timestamptz' })
   dueDate: Date;
 
-  @ManyToOne(() => User, (user) => user.tasks)
+  @ManyToOne(() => User, (user) => user.tasks, { eager: true })
   assignee: User;
 }
