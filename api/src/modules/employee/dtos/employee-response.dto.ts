@@ -14,4 +14,8 @@ export class EmployeeResponseDto extends BaseResponseDto {
   @Expose()
   @Transform(({ obj }) => obj?.department?.departmentName)
   department: string;
+
+  @Expose()
+  @Transform(({ obj }) => obj?.role?.roleName)
+  role: string;
 }

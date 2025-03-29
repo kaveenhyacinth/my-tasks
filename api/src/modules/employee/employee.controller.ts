@@ -3,11 +3,14 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
   Post,
   Put,
+  Request,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dtos/create-employee.dto';
@@ -21,12 +24,27 @@ import { BaseResponse } from '../../common/responses/base.response';
 import { ROLE } from '../../enums/role.enum';
 import { AllowedRoles } from '../../common/decorators/allowed-roles.decorator';
 import { Restricted } from '../../guards/restricted.guard';
+import { Request as Req } from 'express';
 
 @Controller('api/employees')
 export class EmployeeController {
   private throwable = new Throwable('EmployeeController');
 
   constructor(private readonly employeeService: EmployeeService) {}
+
+  @Get('me')
+  @Restricted()
+  async getMe(@Request() req: Req) {
+    const userId = req['user']?.sub as string;
+    if (!userId) throw new UnauthorizedException('Unauthorized');
+
+    try {
+      const employee = await this.employeeService.getEmployeeById(userId);
+      return new EmployeeResponse(serialize(EmployeeResponseDto, employee));
+    } catch (err) {
+      this.throwable.throwError(err);
+    }
+  }
 
   @Post()
   @Restricted()

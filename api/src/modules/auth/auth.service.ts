@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../database/core/user.entity';
 import { Repository } from 'typeorm';
@@ -23,9 +19,9 @@ export class AuthService {
   async login({ username, password }: LoginDto) {
     const user = await this.userRepo.findOneBy({ username });
 
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) throw new UnauthorizedException('User not found');
     if (user.password !== password)
-      throw new BadRequestException('Invalid password');
+      throw new UnauthorizedException('Invalid password');
 
     const jwtPayload = {
       sub: user.id,
