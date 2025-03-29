@@ -26,6 +26,14 @@ export class EmployeeService {
     return await this.employeeRepo.exists({ where: { username } });
   }
 
+  async getEmployeeById(employeeId: string) {
+    if (!employeeId) throw new BadRequestException('employeeId is required');
+
+    const employee = await this.employeeRepo.findOneBy({ id: employeeId });
+    if (!employee) throw new NotFoundException('Employee not found');
+    return employee;
+  }
+
   async create(employee: CreateEmployeeDto) {
     const role = await this.roleService.findByName(ROLE.BASE);
     if (!role)

@@ -8,6 +8,7 @@ import { RoleModule } from './modules/role/role.module';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { DepartmentModule } from './modules/department/department.module';
 import { UsernameExistConstraint } from './validators/username-exist.validator';
+import { TaskModule } from './modules/task/task.module';
 
 @Module({
   imports: [
@@ -35,6 +36,8 @@ import { UsernameExistConstraint } from './validators/username-exist.validator';
     EmployeeModule,
 
     DepartmentModule,
+
+    TaskModule,
   ],
   controllers: [AppController],
   providers: [AppService, UsernameExistConstraint],

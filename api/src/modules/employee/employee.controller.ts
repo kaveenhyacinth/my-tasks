@@ -19,7 +19,7 @@ import { Throwable } from '../../utils/throwable.util';
 import { EmployeeParamsDto } from './dtos/employee-params.dto';
 import { BaseResource } from '../../common/resources/base.resource';
 
-@Controller('api/employee')
+@Controller('api/employees')
 export class EmployeeController {
   private throwable = new Throwable('EmployeeController');
 
