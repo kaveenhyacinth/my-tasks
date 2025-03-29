@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../database/core/user.entity';
 import { Repository } from 'typeorm';
@@ -22,8 +26,9 @@ export class AuthService {
       relations: ['role'],
     });
 
-    if (!user) throw new Error('User not found');
-    if (user.password !== password) throw new Error('Invalid password');
+    if (!user) throw new NotFoundException('User not found');
+    if (user.password !== password)
+      throw new BadRequestException('Invalid password');
 
     const jwtPayload = {
       sub: user.id,
@@ -31,10 +36,8 @@ export class AuthService {
       role: user.role.id,
     } satisfies JwtPayload;
 
-    const token = await this.jwtService.signAsync(jwtPayload, {
+    return await this.jwtService.signAsync(jwtPayload, {
       secret: this.configService.get<string>('JWT_SECRET'),
     });
-
-    return { token };
   }
 }
