@@ -1,14 +1,7 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  HttpCode,
-  HttpStatus,
-  Post,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
-import { TokenResource } from './resources/token.resource';
+import { TokenResponse } from './responses/token.response';
 import { serialize } from '../../utils/serializer.util';
 import { TokenResponseDto } from './dtos/token-response.dto';
 import { Throwable } from '../../utils/throwable.util';
@@ -26,7 +19,7 @@ export class AuthController {
 
     try {
       const token = await this.authService.login(loginDto);
-      return new TokenResource(serialize(TokenResponseDto, token));
+      return new TokenResponse(serialize(TokenResponseDto, token));
     } catch (err) {
       this.throwable.throwError(err);
     }

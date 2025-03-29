@@ -12,12 +12,12 @@ import {
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dtos/create-employee.dto';
 import { EmployeeResponseDto } from './dtos/employee-response.dto';
-import { EmployeeResource } from './resources/employee.resource';
+import { EmployeeResponse } from './responses/employee.response';
 import { serialize } from '../../utils/serializer.util';
 import { UpdateEmployeeDto } from './dtos/upate-employee.dto';
 import { Throwable } from '../../utils/throwable.util';
 import { EmployeeParamsDto } from './dtos/employee-params.dto';
-import { BaseResource } from '../../common/resources/base.resource';
+import { BaseResponse } from '../../common/responses/base.response';
 
 @Controller('api/employees')
 export class EmployeeController {
@@ -30,7 +30,7 @@ export class EmployeeController {
   async create(@Body() createEmployeeDto: CreateEmployeeDto) {
     try {
       const employee = await this.employeeService.create(createEmployeeDto);
-      return new EmployeeResource(
+      return new EmployeeResponse(
         serialize(EmployeeResponseDto, employee),
         'Employee has been created successfully.',
       );
@@ -51,7 +51,7 @@ export class EmployeeController {
         employeeId,
         updateEmployeeDto,
       );
-      return new EmployeeResource(
+      return new EmployeeResponse(
         serialize(EmployeeResponseDto, updatedEmployee),
         'Employee has been updated successfully.',
       );
@@ -66,7 +66,7 @@ export class EmployeeController {
     if (!employeeId) throw new BadRequestException('EmployeeId is required');
     try {
       await this.employeeService.delete(employeeId);
-      return new BaseResource({}, 'Employee has been deleted successfully.');
+      return new BaseResponse({}, 'Employee has been deleted successfully.');
     } catch (err) {
       this.throwable.throwError(err);
     }

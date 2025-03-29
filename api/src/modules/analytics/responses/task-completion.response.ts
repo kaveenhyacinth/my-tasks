@@ -1,7 +1,7 @@
-import { BaseResource } from '../../../common/resources/base.resource';
+import { BaseResponse } from '../../../common/responses/base.response';
 import { TaskCompletionResponseDto } from '../dtos/task-completion-response.dto';
 
-export class TaskCompletionResource extends BaseResource {
+export class TaskCompletionResponse extends BaseResponse {
   constructor(result: TaskCompletionResponseDto, message?: string) {
     super({ result }, message);
   }

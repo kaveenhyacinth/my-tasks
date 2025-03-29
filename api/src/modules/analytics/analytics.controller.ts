@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
 import { Throwable } from '../../utils/throwable.util';
-import { TaskCompletionResource } from './resources/task-completion.resource';
+import { TaskCompletionResponse } from './responses/task-completion.response';
 import { serialize } from '../../utils/serializer.util';
 import { TaskCompletionResponseDto } from './dtos/task-completion-response.dto';
 
@@ -16,7 +16,7 @@ export class AnalyticsController {
     try {
       const result =
         await this.analyticsService.taskCompletionOverviewByEmployees();
-      return new TaskCompletionResource(
+      return new TaskCompletionResponse(
         serialize(TaskCompletionResponseDto, result),
       );
     } catch (err) {
