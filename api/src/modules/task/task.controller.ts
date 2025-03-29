@@ -4,6 +4,8 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
   Post,
   Query,
   Request,
@@ -24,6 +26,8 @@ import { TaskQueriesDto } from './dtos/task-queries.dto';
 import { PaginationParams } from '../../common/decorators/pagination-params.decorator';
 import { Pagination } from '../../interfaces/pagination.interface';
 import { PaginationUtil } from '../../utils/pagination.util';
+import { UpdateTaskParamDto } from './dtos/update-task-param.dto';
+import { UpdateTaskDto } from './dtos/update-task.dto';
 
 @Controller('api/tasks')
 export class TaskController {
@@ -66,6 +70,24 @@ export class TaskController {
         serialize(TaskListResponseDto, tasks),
         pagination.getSerializedPaginationMeta(total),
       );
+    } catch (err) {
+      this.throwable.throwError(err);
+    }
+  }
+
+  @Patch(':id')
+  @Restricted()
+  async updateStatus(
+    @Request() req: Req,
+    @Param() params: UpdateTaskParamDto,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    const userId = req['user']?.sub as string;
+    if (!userId) throw new UnauthorizedException('Unauthorized');
+
+    try {
+      await this.taskService.updateStatus(userId, params.id, updateTaskDto);
+      return new BaseResponse({}, 'Task has been updated successfully.');
     } catch (err) {
       this.throwable.throwError(err);
     }

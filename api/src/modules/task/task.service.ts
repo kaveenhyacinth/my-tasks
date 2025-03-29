@@ -1,7 +1,9 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from '../../database/core/task.entity';
@@ -10,6 +12,7 @@ import { CreateTaskDto } from './dtos/create-task.dto';
 import { EmployeeService } from '../employee/employee.service';
 import { TaskQueriesDto } from './dtos/task-queries.dto';
 import { Pagination } from '../../interfaces/pagination.interface';
+import { UpdateTaskDto } from './dtos/update-task.dto';
 
 @Injectable()
 export class TaskService {
@@ -63,5 +66,23 @@ export class TaskService {
         'createdAt',
       ],
     });
+  }
+
+  async updateStatus(userId: string, taskId: string, status: UpdateTaskDto) {
+    if (!userId) throw new UnauthorizedException('Unauthorized');
+    if (!taskId) throw new BadRequestException('taskId is required');
+
+    const task = await this.taskRepo.findOne({
+      where: { id: taskId, assignee: { id: userId } },
+    });
+
+    if (!task) throw new NotFoundException('task does not exist');
+
+    return await this.taskRepo.update(
+      { id: taskId },
+      {
+        completed: status.completed,
+      },
+    );
   }
 }
