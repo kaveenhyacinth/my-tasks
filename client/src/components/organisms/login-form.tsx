@@ -8,8 +8,9 @@ import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "../../../api";
+import { LoginResponse, ROLE_TYPE } from "../../../api/auth/types.ts";
 
-import { STORAGE_KEY_TOKEN } from "@/lib/constants.ts";
+import { STORAGE_KEY_ROLE, STORAGE_KEY_TOKEN } from "@/lib/constants.ts";
 import useAuthStore from "@/store/auth.ts";
 
 type LoginFormData = {
@@ -20,11 +21,12 @@ type LoginFormData = {
 export const LoginForm = () => {
   const navigate = useNavigate();
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
+  const setIsAdmin = useAuthStore((state) => state.setIsAdmin);
 
   const mutation = useMutation({
     mutationFn: api.auth.login.$post,
     onSuccess: (res) => {
-      handleOnLoginSuccess(res.data.token);
+      handleOnLoginSuccess(res.data);
     },
     onError: (error: AxiosError<{ message: string }>) => {
       addToast({
@@ -35,9 +37,11 @@ export const LoginForm = () => {
     },
   });
 
-  const handleOnLoginSuccess = (token: string) => {
-    localStorage.setItem(STORAGE_KEY_TOKEN, token);
-    setIsAuthenticated(!!token);
+  const handleOnLoginSuccess = (loginRes: LoginResponse) => {
+    localStorage.setItem(STORAGE_KEY_TOKEN, loginRes.token);
+    localStorage.setItem(STORAGE_KEY_ROLE, loginRes.role);
+    setIsAuthenticated(!!loginRes.token);
+    setIsAdmin(loginRes.role === ROLE_TYPE.ADMIN);
 
     return navigate("/dashboard");
   };

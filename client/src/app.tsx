@@ -1,9 +1,11 @@
-import { useCallback, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { ROLE_TYPE } from "../api/auth/types.ts";
 
 import useAuthStore from "@/store/auth.ts";
 import { STORAGE_KEY_ROLE, STORAGE_KEY_TOKEN } from "@/lib/constants.ts";
-import { ROLE_TYPE } from "@/components/types/role.ts";
 import { AppRoutes } from "@/routes/app-routes.tsx";
+import { GlobalPreloader } from "@/components/molecules/global-preloader.tsx";
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -11,19 +13,24 @@ function App() {
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
   const setIsAdmin = useAuthStore((state) => state.setIsAdmin);
 
-  const checkAuth = useCallback(() => {
+  const [authChecked, setAuthChecked] = useState(false);
+
+  const checkAuth = () => {
     const token = localStorage.getItem(STORAGE_KEY_TOKEN);
-
-    setIsAuthenticated(!!token);
-
     const role = localStorage.getItem(STORAGE_KEY_ROLE);
 
+    setIsAuthenticated(!!token);
     setIsAdmin(role === ROLE_TYPE.ADMIN);
-  }, []);
+    setAuthChecked(true);
+  };
 
   useEffect(() => {
     checkAuth();
   }, []);
+
+  if (!authChecked) {
+    return <GlobalPreloader />;
+  }
 
   return <AppRoutes isAuthenticated={isAuthenticated} />;
 }

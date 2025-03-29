@@ -1,5 +1,7 @@
 import { DefineMethods } from "aspida";
 
+import { LoginResponse } from "./types.ts";
+
 export type Methods = DefineMethods<{
   post: {
     reqBody: {
@@ -7,9 +9,7 @@ export type Methods = DefineMethods<{
       password: string;
     };
     resBody: {
-      data: {
-        token: string;
-      };
+      data: LoginResponse;
     };
   };
 }>;
