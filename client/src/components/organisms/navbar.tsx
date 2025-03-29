@@ -50,7 +50,7 @@ export const Navbar = () => {
   }
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
+    <HeroUINavbar className="py-2" maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand className="gap-3 max-w-fit">
           <h1 className={title({ size: "xs", color: "blue" })}>My Tasks</h1>
