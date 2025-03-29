@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../../api";
 
 import { STORAGE_KEY_TOKEN } from "@/lib/constants.ts";
+import useAuthStore from "@/store/auth.ts";
 
 type LoginFormData = {
   username: string;
@@ -18,6 +19,7 @@ type LoginFormData = {
 
 export const LoginForm = () => {
   const navigate = useNavigate();
+  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
 
   const mutation = useMutation({
     mutationFn: api.auth.login.$post,
@@ -35,8 +37,9 @@ export const LoginForm = () => {
 
   const handleOnLoginSuccess = (token: string) => {
     localStorage.setItem(STORAGE_KEY_TOKEN, token);
+    setIsAuthenticated(!!token);
 
-    return navigate("/");
+    return navigate("/dashboard");
   };
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
