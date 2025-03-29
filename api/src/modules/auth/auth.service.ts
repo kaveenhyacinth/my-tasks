@@ -33,8 +33,13 @@ export class AuthService {
       role: user.role.id,
     } satisfies JwtPayload;
 
-    return await this.jwtService.signAsync(jwtPayload, {
+    const token = await this.jwtService.signAsync(jwtPayload, {
       secret: this.configService.get<string>('JWT_SECRET'),
     });
+
+    return {
+      token,
+      role: user.role.roleName,
+    };
   }
 }
