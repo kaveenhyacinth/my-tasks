@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Department } from '../../database/core/department.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 
 @Injectable()
 export class DepartmentService {
@@ -13,6 +13,12 @@ export class DepartmentService {
     @InjectRepository(Department)
     private readonly departmentRepo: Repository<Department>,
   ) {}
+
+  async findAllExceptAdmin() {
+    return await this.departmentRepo.find({
+      where: { departmentName: Not('Administration') },
+    });
+  }
 
   async findById(departmentId: string) {
     if (!departmentId)
