@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { IsUsernameExist } from '../../../validators/username-exist.validator';
 
 export class CreateEmployeeDto {
@@ -20,6 +20,6 @@ export class CreateEmployeeDto {
   password: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsUUID()
   department: string;
 }

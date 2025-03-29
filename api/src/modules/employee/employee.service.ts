@@ -29,7 +29,20 @@ export class EmployeeService {
   async getEmployeeById(employeeId: string) {
     if (!employeeId) throw new BadRequestException('employeeId is required');
 
-    const employee = await this.employeeRepo.findOneBy({ id: employeeId });
+    const employee = await this.employeeRepo.findOne({
+      where: { id: employeeId },
+      loadEagerRelations: true,
+      select: [
+        'id',
+        'firstName',
+        'lastName',
+        'username',
+        'department',
+        'role',
+        'createdAt',
+        'updatedAt',
+      ],
+    });
     if (!employee) throw new NotFoundException('Employee not found');
     return employee;
   }

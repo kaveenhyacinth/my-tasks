@@ -20,6 +20,7 @@ export class TaskService {
   async create(task: CreateTaskDto) {
     const employee = await this.employeeService.getEmployeeById(task.assignee);
     if (!employee) throw new NotFoundException('employee does not exist');
+    console.log('employee', employee);
 
     const newTask = this.taskRepo.create({
       ...task,

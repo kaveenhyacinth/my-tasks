@@ -16,6 +16,12 @@ export class Task extends BaseEntity {
   @Column({ type: 'timestamptz' })
   dueDate: Date;
 
-  @ManyToOne(() => User, (user) => user.tasks, { eager: true })
+  @Column({ type: 'boolean', default: false })
+  completed: boolean;
+
+  @ManyToOne(() => User, (user) => user.tasks, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   assignee: User;
 }

@@ -15,15 +15,19 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   username: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @ManyToOne(() => Department, (department) => department.users, {
     eager: true,
+    onDelete: 'SET NULL',
   })
   department: Department;
 
-  @ManyToOne(() => Role, (role) => role.users, { eager: true })
+  @ManyToOne(() => Role, (role) => role.users, {
+    eager: true,
+    onDelete: 'RESTRICT',
+  })
   role: Role;
 
   @OneToMany(() => Task, (task) => task.assignee)

@@ -21,10 +21,7 @@ export class AuthService {
   ) {}
 
   async login({ username, password }: LoginDto) {
-    const user = await this.userRepo.findOne({
-      where: { username },
-      relations: ['role'],
-    });
+    const user = await this.userRepo.findOneBy({ username });
 
     if (!user) throw new NotFoundException('User not found');
     if (user.password !== password)
