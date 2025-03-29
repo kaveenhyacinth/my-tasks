@@ -14,16 +14,16 @@ import {
 import { link as linkStyles } from "@heroui/theme";
 import clsx from "clsx";
 
-import { siteConfig } from "@/config/site";
-import { ThemeSwitch } from "@/components/theme-switch";
+import { siteConfig } from "@/config/site.ts";
+import { ThemeSwitch } from "@/components/molecules/theme-switch.tsx";
 import {
   TwitterIcon,
   GithubIcon,
   DiscordIcon,
   HeartFilledIcon,
   SearchIcon,
-} from "@/components/icons";
-import { Logo } from "@/components/icons";
+} from "@/components/icons.tsx";
+import { Logo } from "@/components/icons.tsx";
 
 export const Navbar = () => {
   const searchInput = (
@@ -54,7 +54,7 @@ export const Navbar = () => {
           <Link
             className="flex justify-start items-center gap-1"
             color="foreground"
-            href="/"
+            href="/client/public"
           >
             <Logo />
             <p className="font-bold text-inherit">ACME</p>
