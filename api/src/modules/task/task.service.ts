@@ -8,6 +8,7 @@ import { Task } from '../../database/core/task.entity';
 import { Repository } from 'typeorm';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { EmployeeService } from '../employee/employee.service';
+import { TaskQueriesDto } from './dtos/task-queries.dto';
 
 @Injectable()
 export class TaskService {
@@ -32,5 +33,26 @@ export class TaskService {
       );
 
     return await this.taskRepo.save(newTask);
+  }
+
+  async ownTasks(userId: string, queries: TaskQueriesDto) {
+    const orderOptions =
+      queries.sort && queries.order
+        ? { [queries.sort]: queries.order.toUpperCase() }
+        : {};
+
+    return await this.taskRepo.find({
+      where: { assignee: { id: userId } },
+      order: orderOptions,
+      select: [
+        'id',
+        'name',
+        'description',
+        'priority',
+        'dueDate',
+        'completed',
+        'createdAt',
+      ],
+    });
   }
 }

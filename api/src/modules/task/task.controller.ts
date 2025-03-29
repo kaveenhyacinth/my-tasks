@@ -1,4 +1,14 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+  Request,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Throwable } from '../../utils/throwable.util';
 import { CreateTaskDto } from './dtos/create-task.dto';
@@ -6,6 +16,11 @@ import { BaseResponse } from '../../common/responses/base.response';
 import { Restricted } from '../../guards/restricted.guard';
 import { AllowedRoles } from '../../common/decorators/allowedRoles.decorator';
 import { ROLE } from '../../enums/role.enum';
+import { Request as Req } from 'express';
+import { TaskListResponse } from './responses/task-list.response';
+import { serialize } from '../../utils/serializer.util';
+import { TaskListResponseDto } from './dtos/task-list-response.dto';
+import { TaskQueriesDto } from './dtos/task-queries.dto';
 
 @Controller('api/tasks')
 export class TaskController {
@@ -21,6 +36,20 @@ export class TaskController {
     try {
       await this.taskService.create(createTaskDto);
       return new BaseResponse({}, 'Task has been created successfully.');
+    } catch (err) {
+      this.throwable.throwError(err);
+    }
+  }
+
+  @Get()
+  @Restricted()
+  async getOwnTasks(@Request() req: Req, @Query() query: TaskQueriesDto) {
+    const userId = req['user']?.sub as string;
+    if (!userId) throw new UnauthorizedException('Unauthorized');
+
+    try {
+      const tasks = await this.taskService.ownTasks(userId, query);
+      return new TaskListResponse(serialize(TaskListResponseDto, tasks));
     } catch (err) {
       this.throwable.throwError(err);
     }
