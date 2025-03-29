@@ -9,6 +9,7 @@ import { EmployeeModule } from './modules/employee/employee.module';
 import { DepartmentModule } from './modules/department/department.module';
 import { UsernameExistConstraint } from './validators/username-exist.validator';
 import { TaskModule } from './modules/task/task.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
 
 @Module({
   imports: [
@@ -38,6 +39,8 @@ import { TaskModule } from './modules/task/task.module';
     DepartmentModule,
 
     TaskModule,
+
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [AppService, UsernameExistConstraint],
