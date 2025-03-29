@@ -3,6 +3,9 @@ import { TaskService } from './task.service';
 import { Throwable } from '../../utils/throwable.util';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { BaseResponse } from '../../common/responses/base.response';
+import { Restricted } from '../../guards/restricted.guard';
+import { AllowedRoles } from '../../common/decorators/allowedRoles.decorator';
+import { ROLE } from '../../enums/role.enum';
 
 @Controller('api/tasks')
 export class TaskController {
@@ -10,8 +13,10 @@ export class TaskController {
 
   constructor(private readonly taskService: TaskService) {}
 
-  @HttpCode(HttpStatus.CREATED)
   @Post()
+  @Restricted()
+  @AllowedRoles(ROLE.ADMIN)
+  @HttpCode(HttpStatus.CREATED)
   async create(@Body() createTaskDto: CreateTaskDto) {
     try {
       await this.taskService.create(createTaskDto);

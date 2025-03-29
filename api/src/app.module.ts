@@ -10,13 +10,24 @@ import { DepartmentModule } from './modules/department/department.module';
 import { UsernameExistConstraint } from './validators/username-exist.validator';
 import { TaskModule } from './modules/task/task.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      global: true,
+      useFactory: (config: ConfigService) => ({
+        global: true,
+        secret: config.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '1d' },
+      }),
+    }),
 
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService): TypeOrmModuleOptions => ({
         type: 'cockroachdb',
         host: configService.get('DB_HOST'),
@@ -27,7 +38,6 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
         entities: [__dirname + '/database/core/**/*.entity{.ts,.js}'],
         ssl: true,
       }),
-      inject: [ConfigService],
     }),
 
     AuthModule,

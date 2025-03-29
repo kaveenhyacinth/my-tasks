@@ -18,6 +18,9 @@ import { UpdateEmployeeDto } from './dtos/upate-employee.dto';
 import { Throwable } from '../../utils/throwable.util';
 import { EmployeeParamsDto } from './dtos/employee-params.dto';
 import { BaseResponse } from '../../common/responses/base.response';
+import { ROLE } from '../../enums/role.enum';
+import { AllowedRoles } from '../../common/decorators/allowedRoles.decorator';
+import { Restricted } from '../../guards/restricted.guard';
 
 @Controller('api/employees')
 export class EmployeeController {
@@ -25,8 +28,10 @@ export class EmployeeController {
 
   constructor(private readonly employeeService: EmployeeService) {}
 
-  @HttpCode(HttpStatus.CREATED)
   @Post()
+  @Restricted()
+  @AllowedRoles(ROLE.ADMIN)
+  @HttpCode(HttpStatus.CREATED)
   async create(@Body() createEmployeeDto: CreateEmployeeDto) {
     try {
       const employee = await this.employeeService.create(createEmployeeDto);
@@ -40,6 +45,8 @@ export class EmployeeController {
   }
 
   @Put(':id')
+  @Restricted()
+  @AllowedRoles(ROLE.ADMIN)
   async update(
     @Param() params: EmployeeParamsDto,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
@@ -61,6 +68,8 @@ export class EmployeeController {
   }
 
   @Delete(':id')
+  @Restricted()
+  @AllowedRoles(ROLE.ADMIN)
   async delete(@Param() params: EmployeeParamsDto) {
     const employeeId = params?.id;
     if (!employeeId) throw new BadRequestException('EmployeeId is required');
