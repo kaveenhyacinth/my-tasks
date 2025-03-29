@@ -23,7 +23,7 @@ import { GlobalPreloader } from "@/components/molecules/global-preloader.tsx";
 export const Navbar = () => {
   const logout = useAuthStore((state) => state.logout);
 
-  const { isPending, data: currentUserQuery } = useQuery({
+  const { isLoading, data: currentUserQuery } = useQuery({
     queryKey: ["currentUser"],
     queryFn: () => api.employees.me.$get(),
   });
@@ -45,7 +45,7 @@ export const Navbar = () => {
     return `${user.firstName}+${user.lastName}`;
   }, [user]);
 
-  if (isPending) {
+  if (isLoading) {
     return <GlobalPreloader />;
   }
 
