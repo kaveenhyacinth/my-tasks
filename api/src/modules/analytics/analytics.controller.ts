@@ -4,7 +4,7 @@ import { Throwable } from '../../utils/throwable.util';
 import { TaskCompletionResponse } from './responses/task-completion.response';
 import { serialize } from '../../utils/serializer.util';
 import { TaskCompletionResponseDto } from './dtos/task-completion-response.dto';
-import { AllowedRoles } from '../../common/decorators/allowedRoles.decorator';
+import { AllowedRoles } from '../../common/decorators/allowed-roles.decorator';
 import { ROLE } from '../../enums/role.enum';
 import { Restricted } from '../../guards/restricted.guard';
 

@@ -19,7 +19,7 @@ import { Throwable } from '../../utils/throwable.util';
 import { EmployeeParamsDto } from './dtos/employee-params.dto';
 import { BaseResponse } from '../../common/responses/base.response';
 import { ROLE } from '../../enums/role.enum';
-import { AllowedRoles } from '../../common/decorators/allowedRoles.decorator';
+import { AllowedRoles } from '../../common/decorators/allowed-roles.decorator';
 import { Restricted } from '../../guards/restricted.guard';
 
 @Controller('api/employees')

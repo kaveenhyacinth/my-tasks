@@ -4,7 +4,7 @@ import { Throwable } from '../../utils/throwable.util';
 import { DepartmentsResponse } from './responses/departments.response';
 import { serialize } from '../../utils/serializer.util';
 import { DepartmentResponseDto } from './dtos/department-response.dto';
-import { AllowedRoles } from '../../common/decorators/allowedRoles.decorator';
+import { AllowedRoles } from '../../common/decorators/allowed-roles.decorator';
 import { ROLE } from '../../enums/role.enum';
 import { Restricted } from '../../guards/restricted.guard';
 

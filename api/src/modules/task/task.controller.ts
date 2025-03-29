@@ -14,13 +14,16 @@ import { Throwable } from '../../utils/throwable.util';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { BaseResponse } from '../../common/responses/base.response';
 import { Restricted } from '../../guards/restricted.guard';
-import { AllowedRoles } from '../../common/decorators/allowedRoles.decorator';
+import { AllowedRoles } from '../../common/decorators/allowed-roles.decorator';
 import { ROLE } from '../../enums/role.enum';
 import { Request as Req } from 'express';
 import { TaskListResponse } from './responses/task-list.response';
 import { serialize } from '../../utils/serializer.util';
 import { TaskListResponseDto } from './dtos/task-list-response.dto';
 import { TaskQueriesDto } from './dtos/task-queries.dto';
+import { PaginationParams } from '../../common/decorators/pagination-params.decorator';
+import { Pagination } from '../../interfaces/pagination.interface';
+import { PaginationUtil } from '../../utils/pagination.util';
 
 @Controller('api/tasks')
 export class TaskController {
@@ -43,13 +46,26 @@ export class TaskController {
 
   @Get()
   @Restricted()
-  async getOwnTasks(@Request() req: Req, @Query() query: TaskQueriesDto) {
+  async getOwnTasks(
+    @Request() req: Req,
+    @Query() query: TaskQueriesDto,
+    @PaginationParams() paginationParams: Pagination,
+  ) {
     const userId = req['user']?.sub as string;
     if (!userId) throw new UnauthorizedException('Unauthorized');
 
     try {
-      const tasks = await this.taskService.ownTasks(userId, query);
-      return new TaskListResponse(serialize(TaskListResponseDto, tasks));
+      const [tasks, total] = await this.taskService.ownTasks(
+        userId,
+        query,
+        paginationParams,
+      );
+
+      const pagination = new PaginationUtil(paginationParams);
+      return new TaskListResponse(
+        serialize(TaskListResponseDto, tasks),
+        pagination.getSerializedPaginationMeta(total),
+      );
     } catch (err) {
       this.throwable.throwError(err);
     }
