@@ -1,12 +1,12 @@
 import { DefineMethods } from "aspida";
 
-import { EmployeeResponse } from "./types.ts";
+import { DepartmentResponse } from "./types";
 
 export type Methods = DefineMethods<{
   get: {
     resBody: {
       data: {
-        employee: EmployeeResponse;
+        departments: DepartmentResponse[];
       };
     };
   };

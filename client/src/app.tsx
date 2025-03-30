@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { ROLE_TYPE } from "../api/auth/types.ts";
+import { ROLE_TYPE } from "../api/auth/login/types.ts";
 
 import useAuthStore from "@/store/auth.ts";
 import { STORAGE_KEY_ROLE, STORAGE_KEY_TOKEN } from "@/lib/constants.ts";

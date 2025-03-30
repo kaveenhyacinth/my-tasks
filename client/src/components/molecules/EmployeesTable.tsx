@@ -21,6 +21,7 @@ type EmployeesTableProps = {
   employees?: EmployeeResponse[];
   isLoading: boolean;
   setCurrentPage: (currentPage: number) => void;
+  onOpenUpdateModal: (employee: EmployeeResponse) => void;
 };
 
 export default function EmployeesTable({
@@ -29,6 +30,7 @@ export default function EmployeesTable({
   employees = [],
   isLoading,
   setCurrentPage,
+  onOpenUpdateModal,
 }: EmployeesTableProps) {
   const renderCell = useCallback(
     (employee: EmployeeResponse, columnKey: React.Key) => {
@@ -38,7 +40,7 @@ export default function EmployeesTable({
         return (
           <div className="realative w-full flex items-center gap-2">
             <span className="text-lg cursor-pointer active:opacity-50">
-              <EditIcon size={18} />
+              <EditIcon size={18} onClick={() => onOpenUpdateModal(employee)} />
             </span>
             <span className="text-lg cursor-pointer active:opacity-50">
               <AssignIcon size={18} />

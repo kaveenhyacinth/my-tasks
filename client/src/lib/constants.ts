@@ -7,3 +7,4 @@ export const QUERY_EMPLOYEES_ME = "employees:me";
 export const QUERY_EMPLOYEES_ALL = "employees:all";
 export const QUERY_ANALYTICS_TASK_COMPLETION_OVERVIEW =
   "analytics:task-completion-overview";
+export const QUERY_DEPARTMENTS_ALL = "departments:all";
