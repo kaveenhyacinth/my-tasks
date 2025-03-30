@@ -22,6 +22,7 @@ type EmployeesTableProps = {
   isLoading: boolean;
   setCurrentPage: (currentPage: number) => void;
   onOpenUpdateModal: (employee: EmployeeResponse) => void;
+  onOpenDeleteModal: (employee: EmployeeResponse) => void;
 };
 
 export default function EmployeesTable({
@@ -31,6 +32,7 @@ export default function EmployeesTable({
   isLoading,
   setCurrentPage,
   onOpenUpdateModal,
+  onOpenDeleteModal,
 }: EmployeesTableProps) {
   const renderCell = useCallback(
     (employee: EmployeeResponse, columnKey: React.Key) => {
@@ -46,7 +48,10 @@ export default function EmployeesTable({
               <AssignIcon size={18} />
             </span>
             <span className="text-lg text-danger cursor-pointer active:opacity-50">
-              <TrashIcon size={18} />
+              <TrashIcon
+                size={18}
+                onClick={() => onOpenDeleteModal(employee)}
+              />
             </span>
           </div>
         );

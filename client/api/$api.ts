@@ -17,6 +17,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const GET = 'GET';
   const POST = 'POST';
   const PUT = 'PUT';
+  const DELETE = 'DELETE';
 
   return {
     analytics: {
@@ -53,6 +54,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             fetch<Methods_10lkvo5['put']['resBody']>(prefix, prefix1, PUT, option).json(),
           $put: (option: { body: Methods_10lkvo5['put']['reqBody'], config?: T | undefined }) =>
             fetch<Methods_10lkvo5['put']['resBody']>(prefix, prefix1, PUT, option).json().then(r => r.body),
+          delete: (option?: { config?: T | undefined } | undefined) =>
+            fetch<Methods_10lkvo5['delete']['resBody']>(prefix, prefix1, DELETE, option).json(),
+          $delete: (option?: { config?: T | undefined } | undefined) =>
+            fetch<Methods_10lkvo5['delete']['resBody']>(prefix, prefix1, DELETE, option).json().then(r => r.body),
           $path: () => `${prefix}${prefix1}`,
         };
       },

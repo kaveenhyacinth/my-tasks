@@ -11,10 +11,15 @@ import EmployeesTable from "@/components/molecules/EmployeesTable.tsx";
 const EmployeeUpdateModal = lazy(
   () => import("@/components/molecules/modals/EmployeeUpdateModal.tsx"),
 );
+const EmployeeDeleteModal = lazy(
+  () => import("@/components/organisms/modals/EmployeeDeleteModal.tsx"),
+);
 
 export default function EmployeesModule() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isEmployeeUpdateModalOpen, setIsEmployeeUpdateModalOpen] =
+    useState(false);
+  const [isEmployeeDeleteModalOpen, setIsEmployeeDeleteModalOpen] =
     useState(false);
   const [selectedEmployee, setSelectedEmployee] =
     useState<EmployeeResponse | null>(null);
@@ -40,6 +45,11 @@ export default function EmployeesModule() {
     setIsEmployeeUpdateModalOpen(true);
   };
 
+  const handleOpenEmployeeDeleteModal = (employee: EmployeeResponse) => {
+    setSelectedEmployee(employee);
+    setIsEmployeeDeleteModalOpen(true);
+  };
+
   return (
     <TabContainer>
       <div>
@@ -49,6 +59,7 @@ export default function EmployeesModule() {
           isLoading={isLoading}
           pagination={paginationMeta}
           setCurrentPage={setCurrentPage}
+          onOpenDeleteModal={handleOpenEmployeeDeleteModal}
           onOpenUpdateModal={handleOpenEmployeeUpdateModal}
         />
       </div>
@@ -57,6 +68,16 @@ export default function EmployeesModule() {
         isOpen={!!selectedEmployee?.id && isEmployeeUpdateModalOpen}
         onOpenChange={(isOpen) => {
           setIsEmployeeUpdateModalOpen(isOpen);
+          if (!isOpen) {
+            setSelectedEmployee(null);
+          }
+        }}
+      />
+      <EmployeeDeleteModal
+        employee={selectedEmployee!}
+        isOpen={!!selectedEmployee?.id && isEmployeeDeleteModalOpen}
+        onOpenChange={(isOpen) => {
+          setIsEmployeeDeleteModalOpen(isOpen);
           if (!isOpen) {
             setSelectedEmployee(null);
           }

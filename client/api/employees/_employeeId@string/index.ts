@@ -10,4 +10,11 @@ export type Methods = DefineMethods<{
       message: string;
     };
   };
+
+  delete: {
+    resBody: {
+      data: any;
+      message: string;
+    };
+  };
 }>;

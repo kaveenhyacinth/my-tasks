@@ -8,6 +8,7 @@ import { addToast } from "@heroui/toast";
 
 import { EmployeeResponse } from "../../../../api/employees/types.ts";
 import { api } from "../../../../api";
+import { EmployeeUpdatePayload } from "../../../../api/employees/_employeeId@string/types.ts";
 
 import { QUERY_DEPARTMENTS_ALL, QUERY_EMPLOYEES_ALL } from "@/lib/constants.ts";
 
@@ -34,7 +35,16 @@ export const EmployeeUpdateForm = ({
   });
 
   const employeeUpdateMutation = useMutation({
-    mutationFn: api.employees._employeeId(employee.id).$put,
+    mutationFn: ({
+      employeeId,
+      payload,
+    }: {
+      employeeId: string;
+      payload: EmployeeUpdatePayload;
+    }) =>
+      api.employees._employeeId(employeeId).$put({
+        body: payload,
+      }),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: [QUERY_EMPLOYEES_ALL] });
       addToast({
@@ -66,7 +76,8 @@ export const EmployeeUpdateForm = ({
     ) as EmployeeUpdateFormData;
 
     employeeUpdateMutation.mutate({
-      body: {
+      employeeId: employee.id,
+      payload: {
         firstName: formData.firstName,
         lastName: formData.lastName,
         department: formData.department,
@@ -107,6 +118,7 @@ export const EmployeeUpdateForm = ({
       />
       {selectedDepartmentKey ? (
         <Select
+          isRequired
           defaultSelectedKeys={[selectedDepartmentKey]}
           isLoading={isLoading}
           label="Department"
