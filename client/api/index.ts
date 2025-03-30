@@ -1,9 +1,11 @@
 import axios from "axios";
 import aspida from "@aspida/axios";
-
-import sdk from "./$api";
+import { addToast } from "@heroui/toast";
 
 import { STORAGE_KEY_TOKEN } from "../src/lib/constants.ts";
+import useAuthStore from "../src/store/auth.ts";
+
+import sdk from "./$api";
 
 const http = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -24,6 +26,23 @@ http.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  },
+);
+
+http.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response?.status === 401) {
+      useAuthStore.getState().logout();
+    }
+
+    addToast({
+      title: error?.response?.data?.message || "An error occurred.",
+      icon: "error",
+      color: "danger",
+    });
+
     return Promise.reject(error);
   },
 );

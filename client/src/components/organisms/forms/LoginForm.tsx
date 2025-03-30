@@ -3,8 +3,6 @@ import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
-import { addToast } from "@heroui/toast";
-import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "../../../../api";
@@ -27,13 +25,6 @@ export const LoginForm = () => {
     mutationFn: api.auth.login.$post,
     onSuccess: (res) => {
       handleOnLoginSuccess(res.data);
-    },
-    onError: (error: AxiosError<{ message: string }>) => {
-      addToast({
-        title: error?.response?.data?.message ?? "Login error",
-        icon: "error",
-        color: "danger",
-      });
     },
   });
 
@@ -78,8 +69,13 @@ export const LoginForm = () => {
         type="password"
       />
       <div className="w-full mt-2">
-        <Button className="w-full h-12" color="primary" type="submit">
-          Login
+        <Button
+          className="w-full h-12"
+          color="primary"
+          isLoading={mutation.isPending}
+          type="submit"
+        >
+          {mutation.isPending ? "Logging" : "Login"}
         </Button>
       </div>
     </Form>

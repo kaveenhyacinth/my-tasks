@@ -44,9 +44,6 @@ export const EmployeeUpdateForm = ({
       });
       onClose();
     },
-    onError: () => {
-      onClose();
-    },
   });
 
   const departments = useMemo(
