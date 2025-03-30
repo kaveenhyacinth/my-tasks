@@ -1,3 +1,3 @@
-export const Employees = () => {
-  return <div>Employees </div>;
-};
+export default function Employees() {
+  return <div>Employees</div>;
+}

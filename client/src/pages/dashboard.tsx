@@ -1,40 +1,23 @@
-import { Tabs, Tab } from "@heroui/tabs";
+import { lazy, Suspense } from "react";
 
 import DefaultLayout from "@/layouts/default";
-import { AnalyticsIcon, EmployeesIcon } from "@/components/icons.tsx";
-import { Analytics } from "@/modules/admin/analytics.tsx";
-import { Employees } from "@/modules/admin/employees.tsx";
+import useAuthStore from "@/store/auth.ts";
+import { GlobalPreloader } from "@/components/molecules/global-preloader.tsx";
+
+const AdminDashboard = lazy(() => import(`@/modules/dashboard/admin.tsx`));
+const EmployeeDashboard = lazy(
+  () => import(`@/modules/dashboard/employee.tsx`),
+);
 
 export default function DashboardPage() {
+  const isAdmin = useAuthStore((state) => state.isAdmin);
+
   return (
     <DefaultLayout>
-      <section className="flex flex-col items-center justify-center gap-4 py-2 md:py-4">
-        <div className="flex w-full flex-col">
-          <Tabs isVertical aria-label="Options">
-            <Tab
-              key="analytics"
-              title={
-                <div className="flex items-center space-x-2">
-                  <AnalyticsIcon size={18} />
-                  <span>Analytics</span>
-                </div>
-              }
-            >
-              <Analytics />
-            </Tab>
-            <Tab
-              key="employees"
-              title={
-                <div className="flex items-center space-x-2">
-                  <EmployeesIcon size={18} />
-                  <span>Employees</span>
-                </div>
-              }
-            >
-              <Employees />
-            </Tab>
-          </Tabs>
-        </div>
+      <section className="py-2 md:py-4">
+        <Suspense fallback={<GlobalPreloader />}>
+          {isAdmin ? <AdminDashboard /> : <EmployeeDashboard />}
+        </Suspense>
       </section>
     </DefaultLayout>
   );
