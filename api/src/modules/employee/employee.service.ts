@@ -6,12 +6,13 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../database/core/user.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { CreateEmployeeDto } from './dtos/create-employee.dto';
 import { RoleService } from '../role/role.service';
 import { DepartmentService } from '../department/department.service';
 import { ROLE } from '../../enums/role.enum';
 import { UpdateEmployeeDto } from './dtos/upate-employee.dto';
+import { Pagination } from '../../interfaces/pagination.interface';
 
 @Injectable()
 export class EmployeeService {
@@ -45,6 +46,26 @@ export class EmployeeService {
     });
     if (!employee) throw new NotFoundException('Employee not found');
     return employee;
+  }
+
+  async getAll(pagination: Pagination) {
+    const { limit, offset } = pagination;
+
+    return await this.employeeRepo.findAndCount({
+      where: { role: { roleName: Not(ROLE.ADMIN) } },
+      take: limit,
+      skip: offset,
+      select: [
+        'id',
+        'firstName',
+        'lastName',
+        'username',
+        'department',
+        'role',
+        'createdAt',
+      ],
+      relations: ['role'],
+    });
   }
 
   async create(employee: CreateEmployeeDto) {

@@ -25,6 +25,10 @@ import { ROLE } from '../../enums/role.enum';
 import { AllowedRoles } from '../../common/decorators/allowed-roles.decorator';
 import { Restricted } from '../../guards/restricted.guard';
 import { Request as Req } from 'express';
+import { PaginationParams } from '../../common/decorators/pagination-params.decorator';
+import { Pagination } from '../../interfaces/pagination.interface';
+import { PaginationUtil } from '../../utils/pagination.util';
+import { EmployeeListResponse } from './responses/employee-list.response';
 
 @Controller('api/employees')
 export class EmployeeController {
@@ -41,6 +45,24 @@ export class EmployeeController {
     try {
       const employee = await this.employeeService.getEmployeeById(userId);
       return new EmployeeResponse(serialize(EmployeeResponseDto, employee));
+    } catch (err) {
+      this.throwable.throwError(err);
+    }
+  }
+
+  @Get()
+  @Restricted()
+  @AllowedRoles(ROLE.ADMIN)
+  async getAll(@PaginationParams() paginationParams: Pagination) {
+    try {
+      const [employees, total] =
+        await this.employeeService.getAll(paginationParams);
+
+      const pagination = new PaginationUtil(paginationParams);
+      return new EmployeeListResponse(
+        serialize(EmployeeResponseDto, employees),
+        pagination.getSerializedPaginationMeta(total),
+      );
     } catch (err) {
       this.throwable.throwError(err);
     }
