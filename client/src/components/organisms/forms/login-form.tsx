@@ -7,8 +7,8 @@ import { addToast } from "@heroui/toast";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
-import { api } from "../../../api";
-import { LoginResponse, ROLE_TYPE } from "../../../api/auth/types.ts";
+import { api } from "../../../../api";
+import { LoginResponse, ROLE_TYPE } from "../../../../api/auth/types.ts";
 
 import { STORAGE_KEY_ROLE, STORAGE_KEY_TOKEN } from "@/lib/constants.ts";
 import useAuthStore from "@/store/auth.ts";
