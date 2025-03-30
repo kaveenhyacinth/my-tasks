@@ -19,6 +19,7 @@ import { api } from "../../../api";
 import { title } from "@/components/primitives.ts";
 import useAuthStore from "@/store/auth.ts";
 import { GlobalPreloader } from "@/components/molecules/global-preloader.tsx";
+import { LogoutIcon } from '@/components/icons.tsx';
 
 export const Navbar = () => {
   const logout = useAuthStore((state) => state.logout);
@@ -77,6 +78,7 @@ export const Navbar = () => {
                 key="logout"
                 className="text-danger"
                 color="danger"
+                startContent={<LogoutIcon />}
                 onPress={logout}
               >
                 Log Out
