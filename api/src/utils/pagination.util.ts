@@ -15,6 +15,10 @@ export class PaginationUtil {
     return page - 1 > 0 ? page - 1 : null;
   }
 
+  getTotalPages(total: number): number {
+    return Math.ceil(total / this.pagination.size);
+  }
+
   getSerializedPaginationMeta(total: number): PaginationDto {
     return serialize(PaginationDto, {
       total,
@@ -22,6 +26,7 @@ export class PaginationUtil {
       size: this.pagination.size,
       next: this.getNextPage(total),
       prev: this.getPrevPage(),
+      totalPages: this.getTotalPages(total),
     });
   }
 }

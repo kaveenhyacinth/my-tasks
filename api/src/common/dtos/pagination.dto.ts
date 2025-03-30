@@ -15,4 +15,7 @@ export class PaginationDto {
 
   @Expose()
   prev: number;
+
+  @Expose()
+  totalPages: number;
 }
