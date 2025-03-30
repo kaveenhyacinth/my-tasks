@@ -19,13 +19,14 @@ import { api } from "../../../api";
 import { title } from "@/components/primitives.ts";
 import useAuthStore from "@/store/auth.ts";
 import { GlobalPreloader } from "@/components/molecules/global-preloader.tsx";
-import { LogoutIcon } from '@/components/icons.tsx';
+import { LogoutIcon } from "@/components/icons.tsx";
+import { QUERY_EMPLOYEES_ME } from "@/lib/constants.ts";
 
 export const Navbar = () => {
   const logout = useAuthStore((state) => state.logout);
 
   const { isLoading, data: currentUserQuery } = useQuery({
-    queryKey: ["currentUser"],
+    queryKey: [QUERY_EMPLOYEES_ME],
     queryFn: () => api.employees.me.$get(),
   });
 
@@ -35,13 +36,13 @@ export const Navbar = () => {
   );
 
   const displayName = useMemo(() => {
-    if (!user) return "Unknown";
+    if (!user) return "";
 
     return `${user.firstName} ${user.lastName}`;
   }, [user]);
 
   const avatarQuery = useMemo(() => {
-    if (!user) return "Unknown";
+    if (!user) return "";
 
     return `${user.firstName}+${user.lastName}`;
   }, [user]);

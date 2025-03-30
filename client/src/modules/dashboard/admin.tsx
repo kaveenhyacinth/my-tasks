@@ -9,7 +9,7 @@ const Employees = lazy(() => import(`@/modules/admin/employees.tsx`));
 export default function AdminDashboard() {
   return (
     <div className="flex w-full flex-col">
-      <Tabs isVertical aria-label="Options">
+      <Tabs aria-label="Options">
         <Tab
           key="analytics"
           title={
