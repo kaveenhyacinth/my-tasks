@@ -14,6 +14,7 @@ import { PaginationMeta } from "../../../api/types.ts";
 import { EmployeeResponse } from "../../../api/employees/types.ts";
 
 import { AssignIcon, EditIcon, TrashIcon } from "@/components/icons.tsx";
+import { MODAL_KEY } from "@/types";
 
 type EmployeesTableProps = {
   currentPage: number;
@@ -21,8 +22,7 @@ type EmployeesTableProps = {
   employees?: EmployeeResponse[];
   isLoading: boolean;
   setCurrentPage: (currentPage: number) => void;
-  onOpenUpdateModal: (employee: EmployeeResponse) => void;
-  onOpenDeleteModal: (employee: EmployeeResponse) => void;
+  onOpenModal: (key: MODAL_KEY, employee: EmployeeResponse) => void;
 };
 
 export default function EmployeesTable({
@@ -31,8 +31,7 @@ export default function EmployeesTable({
   employees = [],
   isLoading,
   setCurrentPage,
-  onOpenUpdateModal,
-  onOpenDeleteModal,
+  onOpenModal,
 }: EmployeesTableProps) {
   const renderCell = useCallback(
     (employee: EmployeeResponse, columnKey: React.Key) => {
@@ -42,15 +41,21 @@ export default function EmployeesTable({
         return (
           <div className="realative w-full flex items-center gap-2">
             <span className="text-lg cursor-pointer active:opacity-50">
-              <EditIcon size={18} onClick={() => onOpenUpdateModal(employee)} />
+              <EditIcon
+                size={18}
+                onClick={() => onOpenModal(MODAL_KEY.EMPLOYEE_UPDATE, employee)}
+              />
             </span>
             <span className="text-lg cursor-pointer active:opacity-50">
-              <AssignIcon size={18} />
+              <AssignIcon
+                size={18}
+                onClick={() => onOpenModal(MODAL_KEY.TASK_ASSIGN, employee)}
+              />
             </span>
             <span className="text-lg text-danger cursor-pointer active:opacity-50">
               <TrashIcon
                 size={18}
-                onClick={() => onOpenDeleteModal(employee)}
+                onClick={() => onOpenModal(MODAL_KEY.EMPLOYEE_DELETE, employee)}
               />
             </span>
           </div>

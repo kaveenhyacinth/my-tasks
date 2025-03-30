@@ -1,6 +1,6 @@
 import { DefineMethods } from "aspida";
 
-import { LoginResponse } from "./types.ts";
+import { LoginResponse } from "./types";
 
 export type Methods = DefineMethods<{
   post: {

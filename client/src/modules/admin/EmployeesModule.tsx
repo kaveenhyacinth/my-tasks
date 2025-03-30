@@ -7,6 +7,8 @@ import { EmployeeResponse } from "../../../api/employees/types.ts";
 import TabContainer from "@/components/atoms/TabContainer.tsx";
 import { QUERY_EMPLOYEES_ALL } from "@/lib/constants.ts";
 import EmployeesTable from "@/components/molecules/EmployeesTable.tsx";
+import TaskAssignModal from "@/components/molecules/modals/TaskAssignModal.tsx";
+import { MODAL_KEY } from "@/types";
 
 const EmployeeUpdateModal = lazy(
   () => import("@/components/molecules/modals/EmployeeUpdateModal.tsx"),
@@ -17,10 +19,13 @@ const EmployeeDeleteModal = lazy(
 
 export default function EmployeesModule() {
   const [currentPage, setCurrentPage] = useState(1);
+
   const [isEmployeeUpdateModalOpen, setIsEmployeeUpdateModalOpen] =
     useState(false);
   const [isEmployeeDeleteModalOpen, setIsEmployeeDeleteModalOpen] =
     useState(false);
+  const [isTaskAssignModalOpen, setIsTaskAssignModalOpen] = useState(false);
+
   const [selectedEmployee, setSelectedEmployee] =
     useState<EmployeeResponse | null>(null);
 
@@ -40,14 +45,21 @@ export default function EmployeesModule() {
     [employeesRes?.data],
   );
 
-  const handleOpenEmployeeUpdateModal = (employee: EmployeeResponse) => {
+  const handleOpenModal = (key: MODAL_KEY, employee: EmployeeResponse) => {
     setSelectedEmployee(employee);
-    setIsEmployeeUpdateModalOpen(true);
-  };
-
-  const handleOpenEmployeeDeleteModal = (employee: EmployeeResponse) => {
-    setSelectedEmployee(employee);
-    setIsEmployeeDeleteModalOpen(true);
+    switch (key) {
+      case MODAL_KEY.EMPLOYEE_UPDATE:
+        setIsEmployeeUpdateModalOpen(true);
+        break;
+      case MODAL_KEY.EMPLOYEE_DELETE:
+        setIsEmployeeDeleteModalOpen(true);
+        break;
+      case MODAL_KEY.TASK_ASSIGN:
+        setIsTaskAssignModalOpen(true);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -59,8 +71,7 @@ export default function EmployeesModule() {
           isLoading={isLoading}
           pagination={paginationMeta}
           setCurrentPage={setCurrentPage}
-          onOpenDeleteModal={handleOpenEmployeeDeleteModal}
-          onOpenUpdateModal={handleOpenEmployeeUpdateModal}
+          onOpenModal={handleOpenModal}
         />
       </div>
       <EmployeeUpdateModal
@@ -78,6 +89,16 @@ export default function EmployeesModule() {
         isOpen={!!selectedEmployee?.id && isEmployeeDeleteModalOpen}
         onOpenChange={(isOpen) => {
           setIsEmployeeDeleteModalOpen(isOpen);
+          if (!isOpen) {
+            setSelectedEmployee(null);
+          }
+        }}
+      />
+      <TaskAssignModal
+        employee={selectedEmployee!}
+        isOpen={!!selectedEmployee?.id && isTaskAssignModalOpen}
+        onOpenChange={(isOpen) => {
+          setIsTaskAssignModalOpen(isOpen);
           if (!isOpen) {
             setSelectedEmployee(null);
           }

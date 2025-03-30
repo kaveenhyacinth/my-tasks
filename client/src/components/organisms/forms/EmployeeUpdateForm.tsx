@@ -135,7 +135,7 @@ export const EmployeeUpdateForm = ({
         <></>
       )}
 
-      <div className="w-full flex mt-2">
+      <div className="w-full flex items-center justify-end max-w-xs ml-auto gap-1 mt-2">
         <Button
           className="w-full h-12"
           color="primary"
