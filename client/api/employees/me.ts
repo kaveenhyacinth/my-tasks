@@ -1,6 +1,6 @@
 import { DefineMethods } from "aspida";
 
-import { EmployeeResponse } from "./type";
+import { EmployeeResponse } from "./types.ts";
 
 export type Methods = DefineMethods<{
   get: {

@@ -2,7 +2,7 @@ import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { useMemo } from "react";
 import { Progress } from "@heroui/progress";
 
-import { EmployeeTasksAnalyticsResponse } from "../../../api/analytics/type.ts";
+import { EmployeeTasksAnalyticsResponse } from "../../../api/analytics/types.ts";
 
 import { subtitle, title } from "@/components/primitives.ts";
 

@@ -1,13 +1,16 @@
 import type { AspidaClient } from 'aspida';
+import { dataToURLString } from 'aspida';
 import type { Methods as Methods_46m3yh } from './analytics/task-completion-overview';
 import type { Methods as Methods_19l45fu } from './auth/login';
+import type { Methods as Methods_hyqrhb } from './employees';
 import type { Methods as Methods_16nqtxi } from './employees/me';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? '' : baseURL).replace(/\/$/, '');
   const PATH0 = '/analytics/task-completion-overview';
   const PATH1 = '/auth/login';
-  const PATH2 = '/employees/me';
+  const PATH2 = '/employees';
+  const PATH3 = '/employees/me';
   const GET = 'GET';
   const POST = 'POST';
 
@@ -33,11 +36,17 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
     employees: {
       me: {
         get: (option?: { config?: T | undefined } | undefined) =>
-          fetch<Methods_16nqtxi['get']['resBody']>(prefix, PATH2, GET, option).json(),
+          fetch<Methods_16nqtxi['get']['resBody']>(prefix, PATH3, GET, option).json(),
         $get: (option?: { config?: T | undefined } | undefined) =>
-          fetch<Methods_16nqtxi['get']['resBody']>(prefix, PATH2, GET, option).json().then(r => r.body),
-        $path: () => `${prefix}${PATH2}`,
+          fetch<Methods_16nqtxi['get']['resBody']>(prefix, PATH3, GET, option).json().then(r => r.body),
+        $path: () => `${prefix}${PATH3}`,
       },
+      get: (option: { query: Methods_hyqrhb['get']['query'], config?: T | undefined }) =>
+        fetch<Methods_hyqrhb['get']['resBody']>(prefix, PATH2, GET, option).json(),
+      $get: (option: { query: Methods_hyqrhb['get']['query'], config?: T | undefined }) =>
+        fetch<Methods_hyqrhb['get']['resBody']>(prefix, PATH2, GET, option).json().then(r => r.body),
+      $path: (option?: { method?: 'get' | undefined; query: Methods_hyqrhb['get']['query'] } | undefined) =>
+        `${prefix}${PATH2}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
     },
   };
 };
