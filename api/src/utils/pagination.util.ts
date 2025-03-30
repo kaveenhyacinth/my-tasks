@@ -22,11 +22,11 @@ export class PaginationUtil {
   getSerializedPaginationMeta(total: number): PaginationDto {
     return serialize(PaginationDto, {
       total,
-      page: this.pagination.page,
+      current: this.pagination.page,
       size: this.pagination.size,
       next: this.getNextPage(total),
       prev: this.getPrevPage(),
-      totalPages: this.getTotalPages(total),
+      pages: this.getTotalPages(total),
     });
   }
 }

@@ -5,7 +5,7 @@ export class PaginationDto {
   total: number;
 
   @Expose()
-  page: number;
+  current: number;
 
   @Expose()
   size: number;
@@ -17,5 +17,5 @@ export class PaginationDto {
   prev: number;
 
   @Expose()
-  totalPages: number;
+  pages: number;
 }
