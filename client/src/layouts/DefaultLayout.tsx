@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/organisms/navbar.tsx";
+import { Navbar } from "@/components/organisms/Navbar.tsx";
 
 export default function DefaultLayout({
   children,

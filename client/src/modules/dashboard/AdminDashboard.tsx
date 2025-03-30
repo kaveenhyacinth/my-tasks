@@ -3,8 +3,8 @@ import { lazy } from "react";
 
 import { AnalyticsIcon, EmployeesIcon } from "@/components/icons.tsx";
 
-const Analytics = lazy(() => import(`@/modules/admin/analytics.tsx`));
-const Employees = lazy(() => import(`@/modules/admin/employees.tsx`));
+const Analytics = lazy(() => import(`@/modules/admin/AnalyticsModule.tsx`));
+const Employees = lazy(() => import(`@/modules/admin/EmployeesModule.tsx`));
 
 export default function AdminDashboard() {
   return (

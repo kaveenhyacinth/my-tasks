@@ -1,6 +1,6 @@
 import { lazy } from "react";
 
-const Tasks = lazy(() => import(`@/modules/employee/tasks.tsx`));
+const Tasks = lazy(() => import(`@/modules/employee/TasksModule.tsx`));
 
 export default function EmployeeDashboard() {
   return (

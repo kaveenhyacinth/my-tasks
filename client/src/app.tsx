@@ -5,7 +5,7 @@ import { ROLE_TYPE } from "../api/auth/types.ts";
 import useAuthStore from "@/store/auth.ts";
 import { STORAGE_KEY_ROLE, STORAGE_KEY_TOKEN } from "@/lib/constants.ts";
 import { AppRoutes } from "@/routes/app-routes.tsx";
-import { GlobalPreloader } from "@/components/molecules/global-preloader.tsx";
+import { GlobalPreloader } from "@/components/molecules/GlobalPreloader.tsx";
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);

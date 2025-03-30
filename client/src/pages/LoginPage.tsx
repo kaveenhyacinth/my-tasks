@@ -2,7 +2,7 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Navigate } from "react-router-dom";
 
 import { subtitle, title } from "@/components/primitives";
-import { LoginForm } from "@/components/organisms/forms/login-form.tsx";
+import { LoginForm } from "@/components/organisms/forms/LoginForm.tsx";
 import useAuthStore from "@/store/auth.ts";
 
 export default function LoginPage() {

@@ -3,11 +3,11 @@ import { useMemo, useState } from "react";
 
 import { api } from "../../../api";
 
-import TabContainer from "@/components/atoms/tab-container.tsx";
+import TabContainer from "@/components/atoms/TabContainer.tsx";
 import { QUERY_EMPLOYEES_ALL } from "@/lib/constants.ts";
 import EmployeesTable from "@/components/molecules/EmployeesTable.tsx";
 
-export default function Employees() {
+export default function EmployeesModule() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { isLoading, data: employeesRes } = useQuery({

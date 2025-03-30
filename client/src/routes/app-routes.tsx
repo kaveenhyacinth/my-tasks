@@ -1,7 +1,7 @@
 import { Navigate, useRoutes } from "react-router-dom";
 
-import DashboardPage from "@/pages/dashboard.tsx";
-import LoginPage from "@/pages/login.tsx";
+import DashboardPage from "@/pages/DashboardPage.tsx";
+import LoginPage from "@/pages/LoginPage.tsx";
 import { ProtectedRoutes } from "@/routes/protected-routes.tsx";
 
 type AppRoutesProps = {

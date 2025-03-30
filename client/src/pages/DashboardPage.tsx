@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 
-import DefaultLayout from "@/layouts/default";
+import DefaultLayout from "@/layouts/DefaultLayout.tsx";
 import useAuthStore from "@/store/auth.ts";
-import { GlobalPreloader } from "@/components/molecules/global-preloader.tsx";
+import { GlobalPreloader } from "@/components/molecules/GlobalPreloader.tsx";
 
 const AdminDashboard = lazy(() => import(`@/modules/dashboard/admin.tsx`));
 const EmployeeDashboard = lazy(

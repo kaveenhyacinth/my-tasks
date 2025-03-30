@@ -4,14 +4,14 @@ import { lazy, useMemo } from "react";
 import { api } from "../../../api";
 
 import { QUERY_ANALYTICS_TASK_COMPLETION_OVERVIEW } from "@/lib/constants.ts";
-import { GlobalPreloader } from "@/components/molecules/global-preloader.tsx";
-import TabContainer from "@/components/atoms/tab-container.tsx";
+import { GlobalPreloader } from "@/components/molecules/GlobalPreloader.tsx";
+import TabContainer from "@/components/atoms/TabContainer.tsx";
 
 const EmployeeAnalyticsCard = lazy(
-  () => import(`@/components/molecules/employee-analytics-card.tsx`),
+  () => import(`@/components/molecules/EmployeeAnalyticsCard.tsx`),
 );
 
-export default function Analytics() {
+export default function AnalyticsModule() {
   const { isLoading, data: analyticsResponse } = useQuery({
     queryKey: [QUERY_ANALYTICS_TASK_COMPLETION_OVERVIEW],
     queryFn: () => api.analytics.task_completion_overview.$get(),
