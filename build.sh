@@ -15,6 +15,6 @@ fi
 npm install -g concurrently
 
 # Use concurrently to build and start both api and client in parallel
-concurrently "cd api && npm run build && npm run start:prod" "cd client && npm run build && npm run start:prod"
+concurrently "cd api && npm run build" "cd client && npm run build"
 
-echo "Backend and client applications have been started"
+echo "Backend and client applications have been built"
