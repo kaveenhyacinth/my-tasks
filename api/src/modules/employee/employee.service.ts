@@ -55,6 +55,7 @@ export class EmployeeService {
       loadEagerRelations: true,
       select: [
         'id',
+        'employeeId',
         'firstName',
         'lastName',
         'username',
@@ -75,8 +76,10 @@ export class EmployeeService {
       where: { role: { roleName: Not(ROLE.ADMIN) } },
       take: limit,
       skip: offset,
+      order: { employeeId: 1 },
       select: [
         'id',
+        'employeeId',
         'firstName',
         'lastName',
         'username',

@@ -86,7 +86,7 @@ export default function EmployeesTable({
       }}
     >
       <TableHeader>
-        <TableColumn key="id">EMPLOYEE ID</TableColumn>
+        <TableColumn key="employeeId">EMPLOYEE ID</TableColumn>
         <TableColumn key="firstName">FIRST NAME</TableColumn>
         <TableColumn key="lastName">LAST NAME</TableColumn>
         <TableColumn key="username">USERNAME</TableColumn>
