@@ -21,7 +21,9 @@ export default function SortSelector({
   setSortOrder,
 }: SortSelectorProps) {
   const handleOnChangeSort = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSortKey((e.target.value as TaskSortQuery) ?? sortKey);
+    const newSortKey = !!e.target.value ? e.target.value : sortKey;
+
+    setSortKey(newSortKey as TaskSortQuery);
   };
 
   const handleOnChangeOrder = () => {
