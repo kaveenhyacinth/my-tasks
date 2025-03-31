@@ -14,8 +14,8 @@ module.exports = {
         NODE_ENV: 'production',
         PORT: 8084,
       },
-      error_file: '/var/log/pm2/my-tasks-backend-error.log',
-      out_file: '/var/log/pm2/my-tasks-backend-out.log',
+      error_file: '/home/ec2-user/.pm2/logs/my-tasks-backend-error.log',
+      out_file: '/home/ec2-user/.pm2/logs/my-tasks-backend-out.log',
     },
     {
       name: 'my-tasks-frontend',
@@ -31,8 +31,8 @@ module.exports = {
         NODE_ENV: 'production',
         PORT: 5084,
       },
-      error_file: '/var/log/pm2/my-tasks-frontend-error.log',
-      out_file: '/var/log/pm2/my-tasks-frontend-out.log',
+      error_file: '/home/ec2-user/.pm2/logs/my-tasks-frontend-error.log',
+      out_file: '/home/ec2-user/.pm2/logs/my-tasks-frontend-out.log',
     }
   ],
 };
