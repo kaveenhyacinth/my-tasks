@@ -18,17 +18,18 @@ export default function TasksModule() {
   const queryClient = useQueryClient();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [sortBy, setSortBy] = useState<TaskSortQuery>("dueDate");
   const [sortOrder, setSortOrder] = useState<TaskOrderQuery>("asc");
   const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
 
   const { isLoading, data: tasksRes } = useQuery({
-    queryKey: [QUERY_TASKS_ALL, currentPage, sortBy, sortOrder],
+    queryKey: [QUERY_TASKS_ALL, currentPage, sortBy, sortOrder, pageSize],
     queryFn: () =>
       api.tasks.$get({
         query: {
           page: currentPage,
-          size: 10,
+          size: pageSize,
           sort: sortBy as any,
           order: sortOrder,
         },
@@ -61,6 +62,11 @@ export default function TasksModule() {
     [tasksRes?.data.tasks],
   );
 
+  const completedTasksCount = useMemo(
+    () => tasks.filter((task) => task.completed)?.length,
+    [tasks],
+  );
+
   const paginationMeta = useMemo(
     () => tasksRes?.data.meta,
     [tasksRes?.data.meta],
@@ -72,10 +78,10 @@ export default function TasksModule() {
     setAlertVisible(alertValue === TASK_ALERT_STATUS.VISIBLE);
   }, [setAlertVisible]);
 
-  const handleOnCloseAlert = () => {
+  const handleOnCloseAlert = useCallback(() => {
     setAlertVisible(false);
     localStorage.setItem(STORAGE_KEY_ALERT, TASK_ALERT_STATUS.HIDDEN);
-  };
+  }, []);
 
   const handleOnUpdateTaskStatus = (taskId: string, completed: boolean) => {
     taskUpdateMutation.mutate({
@@ -106,8 +112,10 @@ export default function TasksModule() {
         />
         <Spacer y={4} />
       </div>
-      <section className="w-full flex justify-between items-center mb-5">
-        <div />
+      <section className="w-full flex justify-between items-end">
+        <span className="text-default-400 text-small">
+          {tasks.length} active tasks, {completedTasksCount} completed
+        </span>
         <div className="">
           <SortSelector
             setSortKey={setSortBy}
@@ -117,12 +125,14 @@ export default function TasksModule() {
           />
         </div>
       </section>
+      <Spacer y={3} />
       <TasksTable
         currentPage={currentPage}
         isLoading={isLoading}
         pagination={paginationMeta}
         setCurrentPage={setCurrentPage}
         tasks={tasks}
+        onChangePageSize={setPageSize}
         onUpdateTaskStatus={handleOnUpdateTaskStatus}
       />
     </div>

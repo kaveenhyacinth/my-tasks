@@ -24,6 +24,7 @@ type TasksTableProps = {
   isLoading: boolean;
   setCurrentPage: (currentPage: number) => void;
   onUpdateTaskStatus: (taskId: string, status: boolean) => void;
+  onChangePageSize: (size: number) => void;
 };
 
 export default function TasksTable({
@@ -33,6 +34,7 @@ export default function TasksTable({
   isLoading,
   setCurrentPage,
   onUpdateTaskStatus,
+  onChangePageSize,
 }: TasksTableProps) {
   const renderCell = useCallback(
     (task: TaskResponse, columnKey: React.Key) => {
@@ -74,18 +76,42 @@ export default function TasksTable({
     [onUpdateTaskStatus],
   );
 
+  const handleOnChangePageSize = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      onChangePageSize(Number(e.target.value));
+    },
+    [],
+  );
+
   return (
     <Table
       aria-label="Employee Tasks Table"
       bottomContent={
-        <div className="flex w-full justify-end">
-          <Pagination
-            showControls
-            initialPage={1}
-            page={isLoading ? 1 : currentPage}
-            total={pagination?.pages ?? 1}
-            onChange={setCurrentPage}
-          />
+        <div className="flex w-full items-end justify-between">
+          {(pagination?.pages ?? 1) > 1 ? (
+            <Pagination
+              showControls
+              initialPage={1}
+              page={isLoading ? 1 : currentPage}
+              total={pagination?.pages ?? 1}
+              onChange={setCurrentPage}
+            />
+          ) : (
+            <div />
+          )}
+          <label className="flex items-center text-default-400 text-small">
+            Rows per page:
+            <select
+              className="bg-transparent outline-none text-default-400 text-small"
+              onChange={handleOnChangePageSize}
+            >
+              <option value="5">5</option>
+              <option selected value="10">
+                10
+              </option>
+              <option value="15">15</option>
+            </select>
+          </label>
         </div>
       }
       classNames={{

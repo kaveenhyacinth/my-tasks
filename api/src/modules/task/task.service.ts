@@ -53,7 +53,7 @@ export class TaskService {
 
     return await this.taskRepo.findAndCount({
       where: { assignee: { id: userId } },
-      order: orderOptions,
+      order: { completed: 'ASC', ...orderOptions },
       take: limit,
       skip: offset,
       select: [
