@@ -17,7 +17,7 @@ export default function AdminDashboard() {
         <Tab
           key="analytics"
           title={
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-1">
               <AnalyticsIcon size={18} />
               <span>Analytics</span>
             </div>
@@ -28,7 +28,7 @@ export default function AdminDashboard() {
         <Tab
           key="employees"
           title={
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-1">
               <EmployeesIcon size={18} />
               <span>Employees</span>
             </div>

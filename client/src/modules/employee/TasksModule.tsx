@@ -118,7 +118,7 @@ export default function TasksModule() {
       <Spacer y={3} />
       <TasksTable
         currentPage={currentPage}
-        isLoading={isLoading}
+        isLoading={isLoading || taskUpdateMutation.isPending}
         pagination={paginationMeta}
         setCurrentPage={setCurrentPage}
         tasks={tasks}

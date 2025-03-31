@@ -41,22 +41,22 @@ export default function EmployeesTable({
 
       if (columnKey === "actions") {
         return (
-          <div className="realative w-full flex items-center gap-2">
+          <div className="realative w-full flex items-center gap-2 lg:gap-3">
             <span className="text-lg cursor-pointer active:opacity-50">
               <EditIcon
-                size={18}
+                size={20}
                 onClick={() => onOpenModal(MODAL_KEY.EMPLOYEE_UPDATE, employee)}
               />
             </span>
             <span className="text-lg cursor-pointer active:opacity-50">
               <AssignIcon
-                size={18}
+                size={20}
                 onClick={() => onOpenModal(MODAL_KEY.TASK_ASSIGN, employee)}
               />
             </span>
             <span className="text-lg text-danger cursor-pointer active:opacity-50">
               <TrashIcon
-                size={18}
+                size={20}
                 onClick={() => onOpenModal(MODAL_KEY.EMPLOYEE_DELETE, employee)}
               />
             </span>

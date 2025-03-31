@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { lazy, useMemo, useState } from "react";
+import { Spacer } from "@heroui/spacer";
 
 import { api } from "../../../api";
 import { EmployeeResponse } from "../../../api/employees/types.ts";
@@ -9,6 +10,7 @@ import { QUERY_EMPLOYEES_ALL } from "@/lib/constants.ts";
 import EmployeesTable from "@/components/molecules/EmployeesTable.tsx";
 import TaskAssignModal from "@/components/molecules/modals/TaskAssignModal.tsx";
 import { MODAL_KEY } from "@/types";
+import { subtitle, title } from "@/components/primitives.ts";
 
 const EmployeeUpdateModal = lazy(
   () => import("@/components/molecules/modals/EmployeeUpdateModal.tsx"),
@@ -65,6 +67,11 @@ export default function EmployeesModule() {
 
   return (
     <TabContainer>
+      <section>
+        <h1 className={title()}>All Employees</h1>
+        <p className={subtitle()}>View and manage all employees</p>
+        <Spacer y={8} />
+      </section>
       <div>
         <EmployeesTable
           currentPage={currentPage}
