@@ -62,11 +62,6 @@ export default function TasksModule() {
     [tasksRes?.data.tasks],
   );
 
-  const completedTasksCount = useMemo(
-    () => tasks.filter((task) => task.completed)?.length,
-    [tasks],
-  );
-
   const paginationMeta = useMemo(
     () => tasksRes?.data.meta,
     [tasksRes?.data.meta],
@@ -112,18 +107,13 @@ export default function TasksModule() {
         />
         <Spacer y={4} />
       </div>
-      <section className="w-full flex justify-between items-end">
-        <span className="text-default-400 text-small">
-          {tasks.length} active tasks, {completedTasksCount} completed
-        </span>
-        <div className="">
-          <SortSelector
-            setSortKey={setSortBy}
-            setSortOrder={setSortOrder}
-            sortKey={sortBy}
-            sortOrder={sortOrder}
-          />
-        </div>
+      <section className="w-full flex justify-end items-end">
+        <SortSelector
+          setSortKey={setSortBy}
+          setSortOrder={setSortOrder}
+          sortKey={sortBy}
+          sortOrder={sortOrder}
+        />
       </section>
       <Spacer y={3} />
       <TasksTable

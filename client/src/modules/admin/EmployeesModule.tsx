@@ -19,6 +19,7 @@ const EmployeeDeleteModal = lazy(
 
 export default function EmployeesModule() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const [isEmployeeUpdateModalOpen, setIsEmployeeUpdateModalOpen] =
     useState(false);
@@ -30,9 +31,9 @@ export default function EmployeesModule() {
     useState<EmployeeResponse | null>(null);
 
   const { isLoading, data: employeesRes } = useQuery({
-    queryKey: [QUERY_EMPLOYEES_ALL, currentPage],
+    queryKey: [QUERY_EMPLOYEES_ALL, currentPage, pageSize],
     queryFn: () =>
-      api.employees.$get({ query: { page: currentPage, size: 10 } }),
+      api.employees.$get({ query: { page: currentPage, size: pageSize } }),
   });
 
   const employees = useMemo(
@@ -71,6 +72,7 @@ export default function EmployeesModule() {
           isLoading={isLoading}
           pagination={paginationMeta}
           setCurrentPage={setCurrentPage}
+          onChangePageSize={setPageSize}
           onOpenModal={handleOpenModal}
         />
       </div>

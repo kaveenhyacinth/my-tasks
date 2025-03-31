@@ -23,6 +23,7 @@ type EmployeesTableProps = {
   isLoading: boolean;
   setCurrentPage: (currentPage: number) => void;
   onOpenModal: (key: MODAL_KEY, employee: EmployeeResponse) => void;
+  onChangePageSize: (size: number) => void;
 };
 
 export default function EmployeesTable({
@@ -32,6 +33,7 @@ export default function EmployeesTable({
   isLoading,
   setCurrentPage,
   onOpenModal,
+  onChangePageSize,
 }: EmployeesTableProps) {
   const renderCell = useCallback(
     (employee: EmployeeResponse, columnKey: React.Key) => {
@@ -67,18 +69,42 @@ export default function EmployeesTable({
     [onOpenModal],
   );
 
+  const handleOnChangePageSize = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      onChangePageSize(Number(e.target.value));
+    },
+    [],
+  );
+
   return (
     <Table
       aria-label="Example table with client side pagination"
       bottomContent={
-        <div className="flex w-full justify-end">
-          <Pagination
-            showControls
-            initialPage={1}
-            page={isLoading ? 1 : currentPage}
-            total={pagination?.pages ?? 1}
-            onChange={setCurrentPage}
-          />
+        <div className="flex w-full items-end justify-between">
+          {(pagination?.pages ?? 1) > 1 ? (
+            <Pagination
+              showControls
+              initialPage={1}
+              page={isLoading ? 1 : currentPage}
+              total={pagination?.pages ?? 1}
+              onChange={setCurrentPage}
+            />
+          ) : (
+            <div />
+          )}
+          <label className="flex items-center text-default-400 text-small">
+            Rows per page:
+            <select
+              className="bg-transparent outline-none text-default-400 text-small"
+              onChange={handleOnChangePageSize}
+            >
+              <option value="5">5</option>
+              <option selected value="10">
+                10
+              </option>
+              <option value="20">20</option>
+            </select>
+          </label>
         </div>
       }
       classNames={{

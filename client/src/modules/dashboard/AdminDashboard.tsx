@@ -3,8 +3,12 @@ import { lazy } from "react";
 
 import { AnalyticsIcon, EmployeesIcon } from "@/components/icons.tsx";
 
-const Analytics = lazy(() => import(`@/modules/admin/AnalyticsModule.tsx`));
-const Employees = lazy(() => import(`@/modules/admin/EmployeesModule.tsx`));
+const AnalyticsModule = lazy(
+  () => import("@/modules/admin/AnalyticsModule.tsx"),
+);
+const EmployeesModule = lazy(
+  () => import("@/modules/admin/EmployeesModule.tsx"),
+);
 
 export default function AdminDashboard() {
   return (
@@ -19,7 +23,7 @@ export default function AdminDashboard() {
             </div>
           }
         >
-          <Analytics />
+          <AnalyticsModule />
         </Tab>
         <Tab
           key="employees"
@@ -30,7 +34,7 @@ export default function AdminDashboard() {
             </div>
           }
         >
-          <Employees />
+          <EmployeesModule />
         </Tab>
       </Tabs>
     </div>
