@@ -12,6 +12,8 @@ if [ -d "client/dist" ]; then
   echo "Removed client/dist directory."
 fi
 
+nvm use
+
 npm install -g concurrently
 
 # Use concurrently to build and start both api and client in parallel
