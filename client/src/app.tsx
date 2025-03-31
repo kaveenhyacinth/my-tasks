@@ -54,10 +54,12 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!authChecked || !isAuthenticated) return;
+
     (async () => {
       await requestNotificationPermission();
     })();
-  }, []);
+  }, [authChecked, isAuthenticated]);
 
   if (!authChecked) {
     return <GlobalPreloader />;
