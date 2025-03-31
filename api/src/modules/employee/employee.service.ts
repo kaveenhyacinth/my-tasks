@@ -13,6 +13,7 @@ import { DepartmentService } from '../department/department.service';
 import { ROLE } from '../../enums/role.enum';
 import { UpdateEmployeeDto } from './dtos/upate-employee.dto';
 import { Pagination } from '../../interfaces/pagination.interface';
+import { createHash } from '../../utils/hash.util';
 
 @Injectable()
 export class EmployeeService {
@@ -22,6 +23,25 @@ export class EmployeeService {
     private readonly roleService: RoleService,
     private readonly departmentService: DepartmentService,
   ) {}
+
+  /**
+   * For the simplicity I'm retrieving human-readable employee ids from a sequence which has been created in the database
+   * But the ideal way to do this would be using a separate counter table along with DB transactions while creating the employee
+   */
+  async getNextEmployeeId() {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const queryRes = await this.employeeRepo.query(
+      `SELECT nextval('employee_seq')`,
+    );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const id = queryRes?.[0]?.nextval;
+    if (!id)
+      throw new InternalServerErrorException(
+        `employee_seq does not exist. Please create employee_seq.`,
+      );
+
+    return id as string;
+  }
 
   async isUsernameExist(username: string): Promise<boolean> {
     return await this.employeeRepo.exists({ where: { username } });
@@ -69,6 +89,8 @@ export class EmployeeService {
   }
 
   async create(employee: CreateEmployeeDto) {
+    const newId = await this.getNextEmployeeId();
+
     const role = await this.roleService.findByName(ROLE.BASE);
     if (!role)
       throw new InternalServerErrorException(
@@ -80,11 +102,15 @@ export class EmployeeService {
     );
     if (!department) throw new NotFoundException('Department not found');
 
+    const { salt, hash } = await createHash(employee.password);
+    const hashedPassword = `${salt}.${hash.toString('hex')}`;
+
     const newEmployee = this.employeeRepo.create({
+      employeeId: newId,
       firstName: employee.firstName,
       lastName: employee.lastName,
       username: employee.username,
-      password: employee.password,
+      password: hashedPassword,
       role,
       department,
     });

@@ -7,6 +7,9 @@ import { Task } from './task.entity';
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
   @Column()
+  employeeId: string;
+
+  @Column()
   firstName: string;
 
   @Column()

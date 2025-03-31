@@ -6,6 +6,7 @@ import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from '../../interfaces/jwt.interface';
+import { createHash } from '../../utils/hash.util';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,11 @@ export class AuthService {
     const user = await this.userRepo.findOneBy({ username });
 
     if (!user) throw new UnauthorizedException('User not found');
-    if (user.password !== password)
+
+    const [salt, storedHash] = user.password.split('.');
+    const { hash } = await createHash(password, salt);
+
+    if (storedHash !== hash.toString('hex'))
       throw new UnauthorizedException('Invalid password');
 
     const jwtPayload = {

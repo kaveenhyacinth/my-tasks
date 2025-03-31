@@ -3,6 +3,9 @@ import { BaseResponseDto } from '../../../common/dtos/base-response.dto';
 
 export class EmployeeResponseDto extends BaseResponseDto {
   @Expose()
+  employeeId: string;
+
+  @Expose()
   firstName: string;
 
   @Expose()
