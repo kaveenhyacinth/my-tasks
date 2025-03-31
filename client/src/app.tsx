@@ -19,8 +19,8 @@ function App() {
     const token = localStorage.getItem(STORAGE_KEY_TOKEN);
     const role = localStorage.getItem(STORAGE_KEY_ROLE);
 
-    setIsAuthenticated(!!token);
     setIsAdmin(role === ROLE_TYPE.ADMIN);
+    setIsAuthenticated(!!token);
     setAuthChecked(true);
   };
 

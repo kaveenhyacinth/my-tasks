@@ -1,6 +1,8 @@
 import { DefineMethods } from "aspida";
 
-import { TaskCreatePayload } from "./types";
+import { PaginationMeta, PaginationQuery } from "../types.ts";
+
+import { TaskCreatePayload, TaskQuery, TaskResponse } from "./types";
 
 export type Methods = DefineMethods<{
   post: {
@@ -8,6 +10,16 @@ export type Methods = DefineMethods<{
     resBody: {
       data: any;
       message: string;
+    };
+  };
+
+  get: {
+    query: TaskQuery & PaginationQuery;
+    resBody: {
+      data: {
+        tasks: TaskResponse[];
+        meta: PaginationMeta;
+      };
     };
   };
 }>;

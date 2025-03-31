@@ -1,4 +1,4 @@
-export type PaginationParams = {
+export type PaginationQuery = {
   page: number;
   size: number;
 };

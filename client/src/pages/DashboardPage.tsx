@@ -5,10 +5,10 @@ import useAuthStore from "@/store/auth.ts";
 import { GlobalPreloader } from "@/components/molecules/GlobalPreloader.tsx";
 
 const AdminDashboard = lazy(
-  () => import(`@/modules/dashboard/AdminDashboard.tsx`),
+  () => import("@/modules/dashboard/AdminDashboard.tsx"),
 );
 const EmployeeDashboard = lazy(
-  () => import(`@/modules/dashboard/AdminDashboard.tsx`),
+  () => import("@/modules/dashboard/EmployeeDashboard.tsx"),
 );
 
 export default function DashboardPage() {

@@ -8,6 +8,7 @@ import { FormEvent } from "react";
 import { DatePicker } from "@heroui/date-picker";
 
 import { api } from "../../../../api";
+import { TaskPriority } from "../../../../api/tasks/types.ts";
 
 type TaskCreateFormData = {
   name: string;
@@ -47,7 +48,7 @@ export default function TaskCreateForm({
       body: {
         name: formData.name,
         description: formData.description,
-        priority: parseInt(formData.priority),
+        priority: parseInt(formData.priority) as TaskPriority,
         dueDate: new Date(formData.dueDate).toISOString(),
         assignee,
       },

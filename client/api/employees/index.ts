@@ -1,6 +1,6 @@
 import { DefineMethods } from "aspida";
 
-import { PaginationMeta, PaginationParams } from "../types";
+import { PaginationMeta, PaginationQuery } from "../types";
 
 import { EmployeeResponse } from "./types";
 
@@ -12,6 +12,6 @@ export type Methods = DefineMethods<{
         meta: PaginationMeta;
       };
     };
-    query: PaginationParams;
+    query: PaginationQuery;
   };
 }>;

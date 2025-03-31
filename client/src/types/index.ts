@@ -9,3 +9,8 @@ export enum MODAL_KEY {
   EMPLOYEE_DELETE = "modal:employee-delete",
   TASK_ASSIGN = "modal:task-assign",
 }
+
+export enum SORT_ORDER {
+  ASC = "asc",
+  DESC = "desc",
+}

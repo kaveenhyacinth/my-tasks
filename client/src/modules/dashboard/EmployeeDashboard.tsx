@@ -1,11 +1,11 @@
 import { lazy } from "react";
 
-const Tasks = lazy(() => import(`@/modules/employee/TasksModule.tsx`));
+const TasksModule = lazy(() => import("@/modules/employee/TasksModule.tsx"));
 
 export default function EmployeeDashboard() {
   return (
     <div>
-      <Tasks />
+      <TasksModule />
     </div>
   );
 }

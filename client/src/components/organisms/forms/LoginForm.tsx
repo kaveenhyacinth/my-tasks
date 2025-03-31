@@ -3,7 +3,6 @@ import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { api } from "../../../../api";
 import { LoginResponse, ROLE_TYPE } from "../../../../api/auth/login/types.ts";
@@ -17,7 +16,6 @@ type LoginFormData = {
 };
 
 export const LoginForm = () => {
-  const navigate = useNavigate();
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
   const setIsAdmin = useAuthStore((state) => state.setIsAdmin);
 
@@ -31,10 +29,9 @@ export const LoginForm = () => {
   const handleOnLoginSuccess = (loginRes: LoginResponse) => {
     localStorage.setItem(STORAGE_KEY_TOKEN, loginRes.token);
     localStorage.setItem(STORAGE_KEY_ROLE, loginRes.role);
-    setIsAuthenticated(!!loginRes.token);
     setIsAdmin(loginRes.role === ROLE_TYPE.ADMIN);
-
-    return navigate("/dashboard");
+    setIsAuthenticated(!!loginRes.token);
+    // !IMPORTANT: LoginPage.tsx will handle navigation to '/dashboard' when 'isAuthenticated' is true
   };
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {

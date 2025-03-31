@@ -7,8 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
-import { Spinner } from "@heroui/spinner";
 import React, { useCallback } from "react";
+import { Spinner } from "@heroui/spinner";
 
 import { PaginationMeta } from "../../../api/types.ts";
 import { EmployeeResponse } from "../../../api/employees/types.ts";
@@ -95,27 +95,20 @@ export default function EmployeesTable({
         <TableColumn key="department">DEPARTMENT</TableColumn>
         <TableColumn key="actions">ACTIONS</TableColumn>
       </TableHeader>
-      {isLoading ? (
-        <TableBody emptyContent={<Spinner size="sm" variant="spinner" />}>
-          {[]}
-        </TableBody>
-      ) : (
-        <>
-          {employees.length ? (
-            <TableBody items={employees}>
-              {(item) => (
-                <TableRow key={item.username}>
-                  {(columnKey) => (
-                    <TableCell>{renderCell(item, columnKey)}</TableCell>
-                  )}
-                </TableRow>
-              )}
-            </TableBody>
-          ) : (
-            <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
-          )}
-        </>
-      )}
+      <TableBody
+        emptyContent="No tasks to display."
+        isLoading={isLoading}
+        items={employees}
+        loadingContent={<Spinner size="sm" variant="spinner" />}
+      >
+        {(item) => (
+          <TableRow key={item.username}>
+            {(columnKey) => (
+              <TableCell>{renderCell(item, columnKey)}</TableCell>
+            )}
+          </TableRow>
+        )}
+      </TableBody>
     </Table>
   );
 }

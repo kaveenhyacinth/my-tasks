@@ -68,6 +68,7 @@ export const Navbar = () => {
                 avatarProps={{
                   isBordered: true,
                   src: `https://ui-avatars.com/api/?name=${avatarQuery}&background=random`,
+                  size: "sm",
                 }}
                 className="transition-transform"
                 description={user?.department ?? ""}
