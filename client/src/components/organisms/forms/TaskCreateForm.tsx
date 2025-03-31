@@ -86,7 +86,12 @@ export default function TaskCreateForm({
         <SelectItem key="2">Medium</SelectItem>
         <SelectItem key="3">Low</SelectItem>
       </Select>
-      <DatePicker label="Due date" name="dueDate" />
+      <DatePicker
+        isRequired
+        errorMessage="Please select a valid due date"
+        label="Due date"
+        name="dueDate"
+      />
       <div className="w-full flex items-center justify-end max-w-xs ml-auto gap-1 mt-2">
         <Button
           className="w-full h-12"

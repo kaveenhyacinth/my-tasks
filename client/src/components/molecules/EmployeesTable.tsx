@@ -96,12 +96,11 @@ export default function EmployeesTable({
             Rows per page:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
+              defaultValue={10}
               onChange={handleOnChangePageSize}
             >
               <option value="5">5</option>
-              <option selected value="10">
-                10
-              </option>
+              <option value="10">10</option>
               <option value="20">20</option>
             </select>
           </label>
