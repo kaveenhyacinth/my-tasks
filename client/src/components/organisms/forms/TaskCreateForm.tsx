@@ -76,11 +76,11 @@ export default function TaskCreateForm({
       />
       <Select
         isRequired
+        defaultSelectedKeys={"3"}
         errorMessage="Please select a task priority"
         label="Priority"
         name="priority"
         placeholder="Select a priority"
-        selectedKeys={"3"}
       >
         <SelectItem key="1">High</SelectItem>
         <SelectItem key="2">Medium</SelectItem>
