@@ -6,6 +6,7 @@ module.exports = {
       args: 'run start:prod',
       cwd: '/var/www/my-tasks/api',
       instances: 1,
+      exec_mode: 'fork',
       autorestart: true,
       watch: false,
       max_memory_restart: '3G',
@@ -13,7 +14,8 @@ module.exports = {
         NODE_ENV: 'production',
         PORT: 8084,
       },
-      exec_mode: 'fork',
+      error_file: '/var/log/pm2/my-tasks-backend-error.log',
+      out_file: '/var/log/pm2/my-tasks-backend-out.log',
     },
     {
       name: 'my-tasks-frontend',
@@ -21,6 +23,7 @@ module.exports = {
       args: 'run start:prod',
       cwd: '/var/www/my-tasks/client',
       instances: 1,
+      exec_mode: 'fork',
       autorestart: true,
       watch: false,
       max_memory_restart: '3G',
@@ -28,7 +31,8 @@ module.exports = {
         NODE_ENV: 'production',
         PORT: 5084,
       },
-      exec_mode: 'fork',
+      error_file: '/var/log/pm2/my-tasks-frontend-error.log',
+      out_file: '/var/log/pm2/my-tasks-frontend-out.log',
     }
   ],
 };
