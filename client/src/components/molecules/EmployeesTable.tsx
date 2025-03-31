@@ -62,9 +62,9 @@ export default function EmployeesTable({
         );
       }
 
-      return <div>{cellValue as string}</div>;
+      return cellValue as string;
     },
-    [],
+    [onOpenModal],
   );
 
   return (
@@ -73,9 +73,7 @@ export default function EmployeesTable({
       bottomContent={
         <div className="flex w-full justify-end">
           <Pagination
-            isCompact
             showControls
-            showShadow
             initialPage={1}
             page={isLoading ? 1 : currentPage}
             total={pagination?.pages ?? 1}

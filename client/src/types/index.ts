@@ -14,3 +14,8 @@ export enum SORT_ORDER {
   ASC = "asc",
   DESC = "desc",
 }
+
+export enum TASK_ALERT_STATUS {
+  VISIBLE = "visible",
+  HIDDEN = "hidden",
+}

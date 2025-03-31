@@ -13,12 +13,17 @@ import { Spinner } from "@heroui/spinner";
 import { PaginationMeta } from "../../../api/types.ts";
 import { TaskResponse } from "../../../api/tasks/types.ts";
 
+import TaskPriorityChip from "@/components/atoms/TaskPriorityChip.tsx";
+import { TaskDueDateChip } from "@/components/atoms/TaskDueDateChip.tsx";
+import { TaskStatusCheckbox } from "@/components/atoms/TaskStatusCheckbox.tsx";
+
 type TasksTableProps = {
   currentPage: number;
   pagination?: PaginationMeta;
   tasks?: TaskResponse[];
   isLoading: boolean;
   setCurrentPage: (currentPage: number) => void;
+  onUpdateTaskStatus: (taskId: string, status: boolean) => void;
 };
 
 export default function TasksTable({
@@ -27,12 +32,47 @@ export default function TasksTable({
   tasks = [],
   isLoading,
   setCurrentPage,
+  onUpdateTaskStatus,
 }: TasksTableProps) {
-  const renderCell = useCallback((task: TaskResponse, columnKey: React.Key) => {
-    const cellValue = task[columnKey as keyof TaskResponse];
+  const renderCell = useCallback(
+    (task: TaskResponse, columnKey: React.Key) => {
+      const cellValue = task[columnKey as keyof TaskResponse];
 
-    return <div>{cellValue as string}</div>;
-  }, []);
+      switch (columnKey) {
+        case "name":
+          return (
+            <div>
+              <p
+                className={
+                  task.completed ? "text-default-400 line-through" : ""
+                }
+              >
+                {cellValue}
+              </p>
+              <p
+                className={`text-xs text-default-500 mt-1 ${task.completed ? "text-default-300" : ""}`}
+              >
+                {task.description}
+              </p>
+            </div>
+          );
+        case "priority":
+          return <TaskPriorityChip priorityLevel={task.priority} />;
+        case "dueDate":
+          return <TaskDueDateChip date={task.dueDate} />;
+        case "completed":
+          return (
+            <TaskStatusCheckbox
+              task={task}
+              onChangeStatus={(status) => onUpdateTaskStatus(task.id, status)}
+            />
+          );
+        default:
+          return cellValue as string;
+      }
+    },
+    [onUpdateTaskStatus],
+  );
 
   return (
     <Table
@@ -40,9 +80,7 @@ export default function TasksTable({
       bottomContent={
         <div className="flex w-full justify-end">
           <Pagination
-            isCompact
             showControls
-            showShadow
             initialPage={1}
             page={isLoading ? 1 : currentPage}
             total={pagination?.pages ?? 1}
@@ -67,7 +105,10 @@ export default function TasksTable({
         loadingContent={<Spinner size="sm" variant="spinner" />}
       >
         {(item) => (
-          <TableRow key={item.id}>
+          <TableRow
+            key={item.id}
+            className={item.completed ? "bg-default-50" : ""}
+          >
             {(columnKey) => (
               <TableCell>{renderCell(item, columnKey)}</TableCell>
             )}
