@@ -20,6 +20,7 @@ dashboard. Built with **ReactJS + Vite**, **NestJS**, and **Cockroach DB**.
     - [Bonus Features](#bonus-features)
 - [🛠️ Setup Instructions](#-setup-instructions)
 - [🔔 Push Notifications](#-push-notifications)
+- [📸 Project Screenshots](#-project-screenshots)
 
 ---
 
@@ -27,17 +28,7 @@ dashboard. Built with **ReactJS + Vite**, **NestJS**, and **Cockroach DB**.
 
 - WEB: https://my-tasks.khprojects.xyz
 - REST API: https://my-tasks-api.khprojects.xyz
-
-<table>
-  <tr>
-    <td><img src="screenshots/screenshot0.png" alt="Screenshot 0" width="500" height="300"/></td>
-    <td><img src="screenshots/screenshot2.png" alt="Screenshot 2" width="500" height="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/screenshot1.png" alt="Screenshot 1" width="500" height="300"/></td>
-    <td><img src="screenshots/screenshot3.png" alt="Screenshot 3" width="500" height="300"/></td>
-  </tr>
-</table>
+    - [Postman collection](https://drive.google.com/file/d/13g-q6VFkLnWLbqvG5ch8RNqMX-s-dc2_/view?usp=sharing)
 
 ## 👤 Demo Users
 
@@ -175,6 +166,15 @@ user first visits the site or when they perform an action that requires notifica
 
 Ensure that notifications are enabled in the browser settings. Users may need to manually allow notifications if they
 have previously blocked them.
+
+---
+
+## 📸 Project Screenshots
+
+![screenshot0](screenshots/screenshot0.png)
+![screenshot1](screenshots/screenshot1.png)
+![screenshot2](screenshots/screenshot2.png)
+![screenshot3](screenshots/screenshot3.png)
 
 ---
 
