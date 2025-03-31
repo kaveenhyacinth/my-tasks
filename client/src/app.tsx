@@ -43,7 +43,6 @@ function App() {
         ),
       });
 
-      console.log("Token Gen", token);
       fcmTokenMutation.mutate({
         body: { token },
       });
