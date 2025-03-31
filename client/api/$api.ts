@@ -4,6 +4,7 @@ import type { Methods as Methods_19l45fu } from "./auth/login";
 import type { Methods as Methods_1lyzgjt } from "./departments";
 import type { Methods as Methods_hyqrhb } from "./employees";
 import type { Methods as Methods_10lkvo5 } from "./employees/_employeeId@string";
+import type { Methods as Methods_1xirj4y } from "./employees/fcm-token";
 import type { Methods as Methods_16nqtxi } from "./employees/me";
 import type { Methods as Methods_w6o6q4 } from "./tasks";
 import type { Methods as Methods_1vagdt3 } from "./tasks/_taskId@string";
@@ -16,8 +17,9 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH1 = "/auth/login";
   const PATH2 = "/departments";
   const PATH3 = "/employees";
-  const PATH4 = "/employees/me";
-  const PATH5 = "/tasks";
+  const PATH4 = "/employees/fcm-token";
+  const PATH5 = "/employees/me";
+  const PATH6 = "/tasks";
   const GET = "GET";
   const POST = "POST";
   const PUT = "PUT";
@@ -123,19 +125,39 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
           $path: () => `${prefix}${prefix1}`,
         };
       },
+      fcm_token: {
+        put: (option: {
+          body: Methods_1xirj4y["put"]["reqBody"];
+          config?: T | undefined;
+        }) =>
+          fetch<Methods_1xirj4y["put"]["resBody"]>(
+            prefix,
+            PATH4,
+            PUT,
+            option,
+          ).json(),
+        $put: (option: {
+          body: Methods_1xirj4y["put"]["reqBody"];
+          config?: T | undefined;
+        }) =>
+          fetch<Methods_1xirj4y["put"]["resBody"]>(prefix, PATH4, PUT, option)
+            .json()
+            .then((r) => r.body),
+        $path: () => `${prefix}${PATH4}`,
+      },
       me: {
         get: (option?: { config?: T | undefined } | undefined) =>
           fetch<Methods_16nqtxi["get"]["resBody"]>(
             prefix,
-            PATH4,
+            PATH5,
             GET,
             option,
           ).json(),
         $get: (option?: { config?: T | undefined } | undefined) =>
-          fetch<Methods_16nqtxi["get"]["resBody"]>(prefix, PATH4, GET, option)
+          fetch<Methods_16nqtxi["get"]["resBody"]>(prefix, PATH5, GET, option)
             .json()
             .then((r) => r.body),
-        $path: () => `${prefix}${PATH4}`,
+        $path: () => `${prefix}${PATH5}`,
       },
       get: (option: {
         query: Methods_hyqrhb["get"]["query"];
@@ -166,7 +188,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
     },
     tasks: {
       _taskId: (val1: string) => {
-        const prefix1 = `${PATH5}/${val1}`;
+        const prefix1 = `${PATH6}/${val1}`;
 
         return {
           patch: (option: {
@@ -200,7 +222,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
       }) =>
         fetch<Methods_w6o6q4["post"]["resBody"]>(
           prefix,
-          PATH5,
+          PATH6,
           POST,
           option,
         ).json(),
@@ -208,7 +230,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         body: Methods_w6o6q4["post"]["reqBody"];
         config?: T | undefined;
       }) =>
-        fetch<Methods_w6o6q4["post"]["resBody"]>(prefix, PATH5, POST, option)
+        fetch<Methods_w6o6q4["post"]["resBody"]>(prefix, PATH6, POST, option)
           .json()
           .then((r) => r.body),
       get: (option: {
@@ -217,7 +239,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
       }) =>
         fetch<Methods_w6o6q4["get"]["resBody"]>(
           prefix,
-          PATH5,
+          PATH6,
           GET,
           option,
         ).json(),
@@ -225,7 +247,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         query: Methods_w6o6q4["get"]["query"];
         config?: T | undefined;
       }) =>
-        fetch<Methods_w6o6q4["get"]["resBody"]>(prefix, PATH5, GET, option)
+        fetch<Methods_w6o6q4["get"]["resBody"]>(prefix, PATH6, GET, option)
           .json()
           .then((r) => r.body),
       $path: (
@@ -236,7 +258,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             }
           | undefined,
       ) =>
-        `${prefix}${PATH5}${option && option.query ? `?${dataToURLString(option.query)}` : ""}`,
+        `${prefix}${PATH6}${option && option.query ? `?${dataToURLString(option.query)}` : ""}`,
     },
   };
 };

@@ -13,6 +13,7 @@ import { EmployeeService } from '../employee/employee.service';
 import { TaskQueriesDto } from './dtos/task-queries.dto';
 import { Pagination } from '../../interfaces/pagination.interface';
 import { UpdateTaskDto } from './dtos/update-task.dto';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class TaskService {
@@ -20,12 +21,12 @@ export class TaskService {
     @InjectRepository(Task)
     private readonly taskRepo: Repository<Task>,
     private readonly employeeService: EmployeeService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   async create(task: CreateTaskDto) {
     const employee = await this.employeeService.getEmployeeById(task.assignee);
     if (!employee) throw new NotFoundException('employee does not exist');
-    console.log('employee', employee);
 
     const newTask = this.taskRepo.create({
       ...task,
@@ -36,7 +37,18 @@ export class TaskService {
         'Something went wrong while creating the task',
       );
 
-    return await this.taskRepo.save(newTask);
+    const savedTask = await this.taskRepo.save(newTask);
+
+    const fcmToken = await this.employeeService.getFcmToken(task.assignee);
+    if (savedTask && fcmToken) {
+      await this.notificationService.sendPushNotification({
+        token: fcmToken,
+        title: 'New Task Assigned',
+        body: `You've been assigned to: ${savedTask.name}.`,
+      });
+    }
+
+    return savedTask;
   }
 
   async ownTasks(

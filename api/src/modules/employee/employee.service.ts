@@ -163,4 +163,16 @@ export class EmployeeService {
 
     return true;
   }
+
+  async updateFcmToken(userId: string, token: string) {
+    return await this.employeeRepo.update({ id: userId }, { fcmToken: token });
+  }
+
+  async getFcmToken(userId: string) {
+    const user = await this.employeeRepo.findOne({
+      where: { id: userId },
+      select: ['id', 'fcmToken'],
+    });
+    return user?.fcmToken;
+  }
 }

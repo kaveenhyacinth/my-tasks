@@ -29,6 +29,7 @@ import { PaginationParams } from '../../common/decorators/pagination-params.deco
 import { Pagination } from '../../interfaces/pagination.interface';
 import { PaginationUtil } from '../../utils/pagination.util';
 import { EmployeeListResponse } from './responses/employee-list.response';
+import { UpdateFcmTokenDto } from './dtos/update-fcm-token.dto';
 
 @Controller('api/employees')
 export class EmployeeController {
@@ -79,6 +80,26 @@ export class EmployeeController {
         serialize(EmployeeResponseDto, employee),
         'Employee has been created successfully.',
       );
+    } catch (err) {
+      this.throwable.throwError(err);
+    }
+  }
+
+  @Put('fcm-token')
+  @Restricted()
+  async updateFcmToken(
+    @Request() req: Req,
+    @Body() updateFcmTokenDto: UpdateFcmTokenDto,
+  ) {
+    const userId = req['user']?.sub as string;
+    if (!userId) throw new UnauthorizedException('Unauthorized');
+
+    try {
+      await this.employeeService.updateFcmToken(
+        userId,
+        updateFcmTokenDto.token,
+      );
+      return new BaseResponse({}, 'FCM token has been updated successfully.');
     } catch (err) {
       this.throwable.throwError(err);
     }

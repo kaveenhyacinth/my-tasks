@@ -21,6 +21,9 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
+  @Column({ nullable: true })
+  fcmToken: string;
+
   @ManyToOne(() => Department, (department) => department.users, {
     eager: true,
     onDelete: 'SET NULL',

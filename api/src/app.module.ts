@@ -11,6 +11,7 @@ import { UsernameExistConstraint } from './validators/username-exist.validator';
 import { TaskModule } from './modules/task/task.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { JwtModule } from '@nestjs/jwt';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -51,6 +52,8 @@ import { JwtModule } from '@nestjs/jwt';
     TaskModule,
 
     AnalyticsModule,
+
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService, UsernameExistConstraint],
